@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PostCard } from "@/components/post-card";
 import { CreatePostModal } from "@/components/create-post-modal";
 import { FilterSection } from "@/components/filter-section";
+import { NavigationHeader } from "@/components/navigation-header";
 import { useAuth } from "@/hooks/use-auth";
 import { queryClient } from "@/lib/queryClient";
 import { PostWithAuthor } from "@shared/schema";
@@ -71,24 +72,20 @@ export default function UserDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
+      <NavigationHeader 
+        onCreatePost={() => setIsCreateModalOpen(true)}
+        showCreateButton={true}
+      />
+      
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 animate-fade-in-up">
-          <div>
-            <h1 className="text-3xl font-bold gradient-text mb-2">
-              Добро пожаловать, {user?.firstName}!
-            </h1>
-            <p className="text-muted-foreground">
-              Управляйте своими обращениями и следите за проблемами города
-            </p>
-          </div>
-          <Button
-            onClick={() => setIsCreateModalOpen(true)}
-            className="gradient-primary hover-lift text-white mt-4 md:mt-0"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Создать обращение
-          </Button>
+        {/* Welcome Section */}
+        <div className="mb-8 animate-fade-in-up">
+          <h1 className="text-3xl font-bold gradient-text mb-2">
+            Добро пожаловать, {user?.firstName}!
+          </h1>
+          <p className="text-muted-foreground">
+            Управляйте своими обращениями и следите за проблемами города
+          </p>
         </div>
 
         {/* Stats Cards */}

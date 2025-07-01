@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PostCard } from "@/components/post-card";
+import { NavigationHeader } from "@/components/navigation-header";
 import { useAuth } from "@/hooks/use-auth";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { PostWithAuthor } from "@shared/schema";
@@ -101,14 +102,16 @@ export default function GovernmentDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
+      <NavigationHeader showCreateButton={false} />
+      
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8 animate-fade-in-up">
           <h1 className="text-3xl font-bold gradient-text mb-2">
-            Панель управления ({user?.department})
+            Панель управления ({user?.department || "Правительство"})
           </h1>
           <p className="text-muted-foreground">
-            Район: {user?.district} • Управление обращениями граждан
+            Район: {user?.district || "Все районы"} • Управление обращениями граждан
           </p>
         </div>
 
