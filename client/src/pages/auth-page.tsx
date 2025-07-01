@@ -29,9 +29,12 @@ const registerSchema = insertUserSchema.extend({
   if (data.role === "government" && !data.governmentId) {
     return false;
   }
+  if (data.role === "admin" && !data.governmentId) {
+    return false;
+  }
   return true;
 }, {
-  message: "Требуется служебный ID для регистрации как представитель власти",
+  message: "Требуется служебный ID для регистрации как представитель власти или администратор",
   path: ["governmentId"],
 });
 
@@ -261,9 +264,59 @@ export default function AuthPage() {
                         <SelectContent>
                           <SelectItem value="citizen">Гражданин</SelectItem>
                           <SelectItem value="government">Представитель власти</SelectItem>
+                          <SelectItem value="admin">Администратор</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
+
+                    {(registerForm.watch("role") === "government" || registerForm.watch("role") === "admin") && (
+                      <>
+                        <div className="space-y-2">
+                          <Label htmlFor="register-governmentId">
+                            {registerForm.watch("role") === "admin" ? "Административный ID" : "Служебный ID"}
+                          </Label>
+                          <Input
+                            id="register-governmentId"
+                            placeholder={
+                              registerForm.watch("role") === "admin" 
+                                ? "Введите административный ID" 
+                                : "Введите служебный ID"
+                            }
+                            className="glass-input"
+                            {...registerForm.register("governmentId")}
+                          />
+                          {registerForm.formState.errors.governmentId && (
+                            <p className="text-sm text-destructive">
+                              {registerForm.formState.errors.governmentId.message}
+                            </p>
+                          )}
+                        </div>
+                        
+                        <div className="space-y-2">
+                          <Label htmlFor="register-department">
+                            {registerForm.watch("role") === "admin" ? "Административная единица" : "Ведомство/Отдел"}
+                          </Label>
+                          <Input
+                            id="register-department"
+                            placeholder={
+                              registerForm.watch("role") === "admin"
+                                ? "Например: Министерство цифрового развития"
+                                : "Например: Хокимият Юнусабадского района"
+                            }
+                            className="glass-input"
+                            {...registerForm.register("department")}
+                          />
+                        </div>
+                        
+                        <div className="bg-blue-50 dark:bg-blue-950 p-3 rounded-lg">
+                          <p className="text-xs text-blue-700 dark:text-blue-300">
+                            ⚠️ {registerForm.watch("role") === "admin" 
+                              ? "Административные аккаунты проходят строгую верификацию" 
+                              : "Аккаунты представителей власти проходят верификацию"} в соответствии с требованиями Республики Узбекистан
+                          </p>
+                        </div>
+                      </>
+                    )}
 
                     <div className="space-y-2">
                       <Label htmlFor="register-confirmPassword">Подтверждение пароля</Label>

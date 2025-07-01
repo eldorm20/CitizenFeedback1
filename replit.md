@@ -105,7 +105,14 @@ Muloqot Plus is a full-stack web application designed as a civic complaint platf
 - **Build Process**: Separate development and production configurations
 
 ## Changelog
-- July 01, 2025. Initial setup
+- July 01, 2025: Initial setup
+- July 01, 2025: Fixed navigation issues and implemented role-based authentication
+  - Fixed duplicate navigation headers
+  - Added functional profile and settings pages
+  - Implemented role-based signup (citizen, government, admin)
+  - Added Uzbekistan government compliance (ЗRU-445)
+  - Added proper dropdown navigation functionality
+  - Fixed authentication system for all user roles
 
 ## User Preferences
 
