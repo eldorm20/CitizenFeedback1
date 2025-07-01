@@ -57,12 +57,24 @@ export const commentLikes = pgTable("comment_likes", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const notifications = pgTable("notifications", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  type: varchar("type", { length: 50 }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  postId: integer("post_id").references(() => posts.id, { onDelete: "cascade" }),
+  read: boolean("read").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   posts: many(posts),
   comments: many(comments),
   postLikes: many(postLikes),
   commentLikes: many(commentLikes),
+  notifications: many(notifications),
 }));
 
 export const postsRelations = relations(posts, ({ one, many }) => ({
@@ -105,6 +117,17 @@ export const commentLikesRelations = relations(commentLikes, ({ one }) => ({
   user: one(users, {
     fields: [commentLikes.userId],
     references: [users.id],
+  }),
+}));
+
+export const notificationsRelations = relations(notifications, ({ one }) => ({
+  user: one(users, {
+    fields: [notifications.userId],
+    references: [users.id],
+  }),
+  post: one(posts, {
+    fields: [notifications.postId],
+    references: [posts.id],
   }),
 }));
 
@@ -157,3 +180,6 @@ export type CommentWithAuthor = Comment & {
   author: User;
   isLiked?: boolean;
 };
+
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;

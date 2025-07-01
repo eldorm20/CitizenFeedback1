@@ -1,21 +1,14 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
-
-interface Notification {
-  id: string;
-  type: "post_created" | "status_updated" | "comment_added";
-  title: string;
-  message: string;
-  postId?: number;
-  read: boolean;
-  createdAt: Date;
-}
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import type { Notification } from "@shared/schema";
 
 interface NotificationContextType {
   notifications: Notification[];
   unreadCount: number;
-  markAsRead: (id: string) => void;
+  markAsRead: (id: number) => void;
   markAllAsRead: () => void;
   isConnected: boolean;
 }
@@ -23,11 +16,36 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | null>(null);
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isConnected, setIsConnected] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
 
+  // Fetch notifications from database
+  const { data: notifications = [], refetch } = useQuery<Notification[]>({
+    queryKey: ["/api/notifications"],
+    enabled: !!user,
+    refetchInterval: 30000, // Refetch every 30 seconds
+  });
+
+  const markAsReadMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest("PATCH", `/api/notifications/${id}/read`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
+    },
+  });
+
+  const markAllAsReadMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("PATCH", "/api/notifications/read-all");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
+    },
+  });
+
+  // WebSocket for real-time notifications
   useEffect(() => {
     if (!user) return;
 
@@ -39,7 +57,6 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       setIsConnected(true);
       console.log("WebSocket connected");
       
-      // Send user authentication
       socket.send(JSON.stringify({
         type: "auth",
         userId: user.id,
@@ -50,26 +67,17 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     socket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log("Notification received:", data);
+        console.log("WebSocket notification received:", data);
 
         if (data.type === "notification") {
-          const newNotification: Notification = {
-            id: Date.now().toString(),
-            type: data.notificationType,
-            title: data.title,
-            message: data.message,
-            postId: data.postId,
-            read: false,
-            createdAt: new Date()
-          };
-
-          setNotifications(prev => [newNotification, ...prev]);
-
-          // Show toast notification
+          // Show toast notification for real-time updates
           toast({
             title: data.title,
             description: data.message,
           });
+          
+          // Refresh notifications from database to get the latest state
+          refetch();
         }
       } catch (error) {
         console.error("Error parsing notification:", error);
@@ -89,20 +97,16 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     return () => {
       socket.close();
     };
-  }, [user, toast]);
+  }, [user, toast, refetch]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  const markAsRead = (id: string) => {
-    setNotifications(prev =>
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
-    );
+  const markAsRead = (id: number) => {
+    markAsReadMutation.mutate(id);
   };
 
   const markAllAsRead = () => {
-    setNotifications(prev =>
-      prev.map(n => ({ ...n, read: true }))
-    );
+    markAllAsReadMutation.mutate();
   };
 
   return (

@@ -1,4 +1,4 @@
-import { users, posts, comments, postLikes, commentLikes, type User, type InsertUser, type Post, type InsertPost, type Comment, type InsertComment, type PostWithAuthor, type CommentWithAuthor } from "@shared/schema";
+import { users, posts, comments, postLikes, commentLikes, notifications, type User, type InsertUser, type Post, type InsertPost, type Comment, type InsertComment, type PostWithAuthor, type CommentWithAuthor, type Notification, type InsertNotification } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, sql, count, ilike, or } from "drizzle-orm";
 import session from "express-session";
@@ -48,6 +48,12 @@ export interface IStorage {
   }>;
   getAllUsers(): Promise<User[]>;
   updateUserRole(userId: number, role: string): Promise<void>;
+  
+  // Notification methods
+  getUserNotifications(userId: number): Promise<Notification[]>;
+  createNotification(notification: InsertNotification): Promise<Notification>;
+  markNotificationAsRead(id: number): Promise<void>;
+  markAllNotificationsAsRead(userId: number): Promise<void>;
   
   sessionStore: any;
 }
@@ -145,21 +151,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPost(id: number, userId?: number): Promise<PostWithAuthor | undefined> {
-    const [result] = await db
+    // Build query step by step to avoid SQL syntax errors
+    let query = db
       .select({
         post: posts,
         author: users,
-        isLiked: userId ? 
-          sql<boolean>`case when ${postLikes.userId} is not null then true else false end` :
-          sql<boolean>`false`
+        isLiked: sql<boolean>`false`
       })
       .from(posts)
-      .innerJoin(users, eq(posts.authorId, users.id))
-      .leftJoin(
+      .innerJoin(users, eq(posts.authorId, users.id));
+
+    // Add like join if userId provided
+    if (userId) {
+      query = query.leftJoin(
         postLikes, 
-        userId ? and(eq(postLikes.postId, posts.id), eq(postLikes.userId, userId)) : undefined
-      )
-      .where(eq(posts.id, id));
+        and(eq(postLikes.postId, posts.id), eq(postLikes.userId, userId))
+      );
+    }
+
+    const [result] = await query.where(eq(posts.id, id));
 
     if (!result) return undefined;
 
@@ -335,6 +345,36 @@ export class DatabaseStorage implements IStorage {
 
   async updateUserRole(userId: number, role: string): Promise<void> {
     await db.update(users).set({ role }).where(eq(users.id, userId));
+  }
+
+  async getUserNotifications(userId: number): Promise<Notification[]> {
+    return await db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.userId, userId))
+      .orderBy(desc(notifications.createdAt));
+  }
+
+  async createNotification(notification: InsertNotification): Promise<Notification> {
+    const [result] = await db
+      .insert(notifications)
+      .values(notification)
+      .returning();
+    return result;
+  }
+
+  async markNotificationAsRead(id: number): Promise<void> {
+    await db
+      .update(notifications)
+      .set({ read: true })
+      .where(eq(notifications.id, id));
+  }
+
+  async markAllNotificationsAsRead(userId: number): Promise<void> {
+    await db
+      .update(notifications)
+      .set({ read: true })
+      .where(eq(notifications.userId, userId));
   }
 }
 

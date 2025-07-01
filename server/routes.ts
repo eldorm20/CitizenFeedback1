@@ -137,14 +137,29 @@ export function registerRoutes(app: Express): Server {
       console.log(`Post created in district: ${post.district}`);
       console.log(`Found ${governmentUsers.length} government users to notify:`, governmentUsers.map(u => ({ id: u.id, username: u.username, district: u.district })));
 
-      // Send notifications to government users
+      // Store persistent notifications and send real-time notifications
       if (governmentUsers.length > 0) {
-        console.log('Sending notifications to user IDs:', governmentUsers.map(user => user.id));
+        console.log('Creating persistent notifications for user IDs:', governmentUsers.map(user => user.id));
+        
+        // Create persistent notifications in database
+        for (const user of governmentUsers) {
+          await storage.createNotification({
+            userId: user.id,
+            type: notificationMessage.type,
+            title: notificationMessage.title,
+            message: notificationMessage.message,
+            postId: post.id,
+            read: false
+          });
+        }
+        
+        // Also send real-time WebSocket notifications if users are online
         sendNotification(
           governmentUsers.map(user => user.id), 
           notificationMessage
         );
-        console.log('Notifications sent successfully');
+        
+        console.log('Persistent and real-time notifications sent successfully');
       } else {
         console.log('No government users found to notify');
       }
@@ -272,6 +287,50 @@ export function registerRoutes(app: Express): Server {
     } catch (error) {
       console.error("Error toggling comment like:", error);
       res.status(500).json({ error: "Failed to toggle like" });
+    }
+  });
+
+  // Notification routes
+  app.get("/api/notifications", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    try {
+      const notifications = await storage.getUserNotifications(req.user!.id);
+      res.json(notifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      res.status(500).json({ error: "Failed to fetch notifications" });
+    }
+  });
+
+  app.patch("/api/notifications/:id/read", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    try {
+      const notificationId = parseInt(req.params.id);
+      await storage.markNotificationAsRead(notificationId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      res.status(500).json({ error: "Failed to mark notification as read" });
+    }
+  });
+
+  app.patch("/api/notifications/read-all", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    try {
+      await storage.markAllNotificationsAsRead(req.user!.id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error marking all notifications as read:", error);
+      res.status(500).json({ error: "Failed to mark all notifications as read" });
     }
   });
 
