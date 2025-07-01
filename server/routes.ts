@@ -435,7 +435,10 @@ export function registerRoutes(app: Express): Server {
           if (!clients.has(userId)) {
             clients.set(userId, []);
           }
-          clients.get(userId)!.push(ws);
+          const userClients = clients.get(userId);
+          if (userClients) {
+            userClients.push(ws);
+          }
           
           console.log(`User ${userId} connected via WebSocket`);
         }

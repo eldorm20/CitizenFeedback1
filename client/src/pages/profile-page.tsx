@@ -111,7 +111,7 @@ export default function ProfilePage() {
             <CardContent className="pt-6">
               <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
                 <Avatar className="w-24 h-24">
-                  <AvatarImage src={user.avatar} />
+                  <AvatarImage src={user.avatar || undefined} />
                   <AvatarFallback className="text-2xl">
                     {user.firstName?.[0]}{user.lastName?.[0]}
                   </AvatarFallback>
@@ -136,17 +136,13 @@ export default function ProfilePage() {
                       <User className="w-4 h-4" />
                       @{user.username}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      На платформе с {new Date(user.createdAt).toLocaleDateString('ru')}
-                    </div>
+                    {user.createdAt && (
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4" />
+                        На платформе с {new Date(user.createdAt).toLocaleDateString('ru')}
+                      </div>
+                    )}
                   </div>
-                  
-                  {user.bio && (
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {user.bio}
-                    </p>
-                  )}
                 </div>
                 
                 <Button

@@ -52,7 +52,7 @@ function Router() {
         <ProtectedRoute path="/complaints" component={ComplaintsPage} />
         <ProtectedRoute path="/initiatives" component={InitiativesPage} />
         <ProtectedRoute path="/statistics" component={StatisticsPage} />
-        <ProtectedRoute path="/profile" component={ProfilePage} />
+        <ProtectedRoute path="/profile" component={() => <ProfilePage />} />
         <ProtectedRoute path="/settings" component={SettingsPage} />
         <Route component={NotFound} />
       </Switch>

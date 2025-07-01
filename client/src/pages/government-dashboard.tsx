@@ -209,8 +209,8 @@ export default function GovernmentDashboard() {
                       <div className="flex items-start justify-between">
                         <div className="space-y-2">
                           <div className="flex items-center space-x-2">
-                            <Badge className={`${getStatusColor(post.status)} text-white`}>
-                              {getStatusText(post.status)}
+                            <Badge className={`${getStatusColor(post.status || 'new')} text-white`}>
+                              {getStatusText(post.status || 'new')}
                             </Badge>
                             <Badge variant="outline">{post.category}</Badge>
                             {getPriorityLevel(post) === "high" && (
@@ -227,11 +227,13 @@ export default function GovernmentDashboard() {
                               <MapPin className="w-4 h-4 mr-1" />
                               {post.district}
                             </span>
-                            <span>{new Date(post.createdAt).toLocaleDateString('ru-RU')}</span>
+                            {post.createdAt && (
+                              <span>{new Date(post.createdAt).toLocaleDateString('ru-RU')}</span>
+                            )}
                           </div>
                         </div>
                         <Select
-                          value={post.status}
+                          value={post.status || 'new'}
                           onValueChange={(status) => 
                             updateStatusMutation.mutate({ postId: post.id, status })
                           }
