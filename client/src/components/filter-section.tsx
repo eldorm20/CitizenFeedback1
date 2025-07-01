@@ -21,7 +21,9 @@ export function FilterSection({
   districts 
 }: FilterSectionProps) {
   const updateFilter = (key: string, value: string) => {
-    onFiltersChange({ ...filters, [key]: value });
+    // Convert "all" back to empty string for API compatibility
+    const actualValue = value === "all" ? "" : value;
+    onFiltersChange({ ...filters, [key]: actualValue });
   };
 
   return (
@@ -67,14 +69,14 @@ export function FilterSection({
             {/* District and Sort */}
             <div className="flex items-center space-x-2">
               <Select
-                value={filters.district}
+                value={filters.district === "" ? "all" : filters.district}
                 onValueChange={(value) => updateFilter("district", value)}
               >
                 <SelectTrigger className="w-48 glass-input">
                   <SelectValue placeholder="Выберите район" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Все районы</SelectItem>
+                  <SelectItem value="all">Все районы</SelectItem>
                   {districts.map((district) => (
                     <SelectItem key={district} value={district}>
                       {district}
