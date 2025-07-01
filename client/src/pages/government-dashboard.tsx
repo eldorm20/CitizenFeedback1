@@ -22,13 +22,17 @@ export default function GovernmentDashboard() {
     queryKey: ["/api/posts", "government", user?.district],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (user?.district) params.set("district", user.district);
+      // Government users with specific districts see only their district's complaints
+      // Government users without districts (null) see ALL complaints
+      if (user?.district) {
+        params.set("district", user.district);
+      }
       
       const response = await fetch(`/api/posts?${params}`);
       if (!response.ok) throw new Error("Ошибка загрузки обращений");
       return response.json();
     },
-    enabled: !!user?.district,
+    enabled: !!user, // Enable for any authenticated government user
   });
 
   const updateStatusMutation = useMutation({
