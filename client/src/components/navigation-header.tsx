@@ -9,6 +9,8 @@ import { useTheme } from "@/components/theme-provider";
 import { useNotifications } from "@/hooks/use-notifications";
 import { LanguageSelector } from "@/components/language-selector";
 import { MessageSquare, Sun, Moon, User, Settings, LogOut, Bell, Plus } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
 
 interface NavigationHeaderProps {
   onCreatePost?: () => void;
@@ -18,7 +20,7 @@ interface NavigationHeaderProps {
 export function NavigationHeader({ onCreatePost, showCreateButton = true }: NavigationHeaderProps) {
   const { user, logoutMutation } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { unreadCount } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
 
   const getRoleText = (role: string) => {
     switch (role) {
@@ -110,14 +112,71 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
             </Button>
 
             {/* Notifications */}
-            <Button variant="ghost" size="sm" className="w-9 h-9 relative">
-              <Bell className="h-4 w-4" />
-              {unreadCount > 0 && (
-                <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                  {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
-              )}
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="w-9 h-9 relative">
+                  <Bell className="h-4 w-4" />
+                  {unreadCount > 0 && (
+                    <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </span>
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-80 max-h-96 overflow-y-auto">
+                <div className="flex items-center justify-between p-4 border-b">
+                  <h3 className="font-semibold">Уведомления</h3>
+                  {unreadCount > 0 && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={markAllAsRead}
+                      className="text-xs"
+                    >
+                      Отметить все как прочитанные
+                    </Button>
+                  )}
+                </div>
+                {notifications.length === 0 ? (
+                  <div className="p-4 text-center text-muted-foreground">
+                    Нет уведомлений
+                  </div>
+                ) : (
+                  <div className="max-h-80 overflow-y-auto">
+                    {notifications.slice(0, 10).map((notification) => (
+                      <div
+                        key={notification.id}
+                        className={`p-4 border-b cursor-pointer hover:bg-accent/50 ${
+                          !notification.read ? 'bg-blue-50 dark:bg-blue-950/20' : ''
+                        }`}
+                        onClick={() => {
+                          markAsRead(notification.id);
+                          if (notification.postId) {
+                            // Navigate to post if applicable
+                            window.location.href = `/?post=${notification.postId}`;
+                          }
+                        }}
+                      >
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <p className="font-medium text-sm">{notification.title}</p>
+                            <p className="text-xs text-muted-foreground mt-1">
+                              {notification.message}
+                            </p>
+                            <p className="text-xs text-muted-foreground mt-2">
+                              {formatDistanceToNow(notification.createdAt, { addSuffix: true, locale: ru })}
+                            </p>
+                          </div>
+                          {!notification.read && (
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mt-1"></div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* User Menu */}
             <DropdownMenu>

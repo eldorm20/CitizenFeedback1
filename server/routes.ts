@@ -116,6 +116,32 @@ export function registerRoutes(app: Express): Server {
         authorId: req.user!.id
       });
 
+      // Send notification to government users in the same district
+      const notificationMessage = {
+        type: "post_created",
+        title: "Новое обращение",
+        message: `Новое обращение "${post.title}" в категории ${post.category}`,
+        postId: post.id,
+        district: post.district,
+        category: post.category,
+        timestamp: new Date().toISOString()
+      };
+
+      // Get all government users in the same district
+      const allUsers = await storage.getAllUsers();
+      const governmentUsers = allUsers.filter(user => 
+        (user.role === 'government' && user.district === post.district) || 
+        user.role === 'admin'
+      );
+
+      // Send notifications to government users
+      if (governmentUsers.length > 0) {
+        sendNotification(
+          governmentUsers.map(user => user.id), 
+          notificationMessage
+        );
+      }
+
       res.status(201).json(post);
     } catch (error) {
       if (error instanceof z.ZodError) {
