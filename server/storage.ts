@@ -46,6 +46,8 @@ export interface IStorage {
     inProgressPosts: number;
     totalUsers: number;
   }>;
+  getAllUsers(): Promise<User[]>;
+  updateUserRole(userId: number, role: string): Promise<void>;
   
   sessionStore: any;
 }
@@ -333,6 +335,14 @@ export class DatabaseStorage implements IStorage {
       inProgressPosts: stats.inProgressPosts,
       totalUsers: userStats.totalUsers
     };
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return await db.select().from(users).orderBy(desc(users.createdAt));
+  }
+
+  async updateUserRole(userId: number, role: string): Promise<void> {
+    await db.update(users).set({ role }).where(eq(users.id, userId));
   }
 }
 

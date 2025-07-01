@@ -11,6 +11,9 @@ export const users = pgTable("users", {
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   avatar: text("avatar"),
+  role: text("role").notNull().default("user"), // user, government, admin
+  district: text("district"), // For government users
+  department: text("department"), // For government users
   isAdmin: boolean("is_admin").default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -18,6 +21,7 @@ export const users = pgTable("users", {
 export const posts = pgTable("posts", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
+  description: text("description").notNull(),
   content: text("content").notNull(),
   category: text("category").notNull(),
   district: text("district").notNull(),

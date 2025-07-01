@@ -3,39 +3,34 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(20, 14.3%, 4.1%);
-  --muted: hsl(60, 4.8%, 95.9%);
-  --muted-foreground: hsl(25, 5.3%, 44.7%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(20, 14.3%, 4.1%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(20, 14.3%, 4.1%);
-  --border: hsl(20, 5.9%, 90%);
-  --input: hsl(20, 5.9%, 90%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(60, 4.8%, 95.9%);
-  --secondary-foreground: hsl(24, 9.8%, 10%);
-  --accent: hsl(60, 4.8%, 95.9%);
-  --accent-foreground: hsl(24, 9.8%, 10%);
-  --destructive: hsl(0, 84.2%, 60.2%);
-  --destructive-foreground: hsl(60, 9.1%, 97.8%);
-  --ring: hsl(20, 14.3%, 4.1%);
-  --radius: 0.5rem;
+  /* Innovative balanced light theme */
+  --background: hsl(220, 12%, 95%);
+  --foreground: hsl(220, 15%, 12%);
+  --muted: hsl(220, 8%, 88%);
+  --muted-foreground: hsl(220, 8%, 45%);
+  --popover: hsl(220, 15%, 97%);
+  --popover-foreground: hsl(220, 15%, 12%);
+  --card: hsl(220, 15%, 97%);
+  --card-foreground: hsl(220, 15%, 15%);
+  --border: hsl(220, 10%, 82%);
+  --input: hsl(220, 10%, 85%);
+  --primary: hsl(262, 80%, 60%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(220, 8%, 88%);
+  --secondary-foreground: hsl(220, 15%, 20%);
+  --accent: hsl(318, 60%, 65%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 75%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(262, 80%, 60%);
+  --radius: 0.75rem;
   
-  /* Custom colors for Muloqot Plus */
-  --primary-50: hsl(207, 100%, 97%);
-  --primary-500: hsl(207, 90%, 54%);
-  --primary-600: hsl(207, 90%, 50%);
-  --primary-700: hsl(207, 90%, 46%);
-  --secondary-500: hsl(158, 64%, 52%);
-  --secondary-600: hsl(158, 68%, 48%);
-  --secondary-700: hsl(158, 72%, 44%);
-  --accent-orange: hsl(38, 92%, 50%);
-  --accent-purple: hsl(258, 90%, 66%);
-  --glass-bg: hsla(0, 0%, 100%, 0.7);
-  --glass-border: hsla(0, 0%, 100%, 0.5);
+  /* Creative gradient colors */
+  --gradient-primary: linear-gradient(135deg, hsl(262, 80%, 60%), hsl(318, 60%, 65%));
+  --gradient-secondary: linear-gradient(135deg, hsl(200, 70%, 50%), hsl(45, 90%, 60%));
+  --gradient-accent: linear-gradient(135deg, hsl(318, 60%, 65%), hsl(262, 80%, 60%));
+  --glass-bg: hsla(220, 15%, 97%, 0.8);
+  --glass-border: hsla(220, 10%, 82%, 0.3);
 }
 
 .dark {
@@ -49,12 +44,12 @@
   --card-foreground: hsl(0, 0%, 98%);
   --border: hsl(240, 3.7%, 15.9%);
   --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
+  --primary: hsl(262, 80%, 70%);
+  --primary-foreground: hsl(240, 10%, 8%);
+  --secondary: hsl(240, 8%, 16%);
+  --secondary-foreground: hsl(240, 5%, 85%);
+  --accent: hsl(318, 60%, 70%);
+  --accent-foreground: hsl(240, 10%, 8%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
   --ring: hsl(240, 4.9%, 83.9%);
@@ -85,11 +80,33 @@
   }
   
   .gradient-primary {
-    @apply bg-gradient-to-r from-blue-500 to-blue-600 dark:from-blue-600 dark:to-blue-700;
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
   }
   
   .gradient-secondary {
-    @apply bg-gradient-to-r from-emerald-500 to-emerald-600 dark:from-emerald-600 dark:to-emerald-700;
+    background: linear-gradient(135deg, hsl(200, 70%, 50%), hsl(45, 90%, 60%));
+  }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .hover-lift {
+    transition: all 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px hsla(var(--primary), 0.15);
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(12px);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
   }
   
   .floating-animation {

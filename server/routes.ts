@@ -256,6 +256,69 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // Admin routes for user management
+  app.get("/api/admin/users", async (req, res) => {
+    if (!req.isAuthenticated() || req.user?.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  app.patch("/api/admin/users/:id/role", async (req, res) => {
+    if (!req.isAuthenticated() || req.user?.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    try {
+      const userId = parseInt(req.params.id);
+      const { role } = req.body;
+      
+      if (!["user", "government", "admin"].includes(role)) {
+        return res.status(400).json({ error: "Invalid role" });
+      }
+
+      await storage.updateUserRole(userId, role);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error updating user role:", error);
+      res.status(500).json({ error: "Failed to update user role" });
+    }
+  });
+
+  // Enhanced post status updates for government users
+  app.patch("/api/posts/:id/status", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    // Only government and admin users can update status
+    if (!["government", "admin"].includes(req.user?.role || "")) {
+      return res.status(403).json({ error: "Government or admin access required" });
+    }
+
+    try {
+      const postId = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      if (!["new", "in_progress", "resolved", "rejected"].includes(status)) {
+        return res.status(400).json({ error: "Invalid status" });
+      }
+
+      await storage.updatePostStatus(postId, status);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error updating post status:", error);
+      res.status(500).json({ error: "Failed to update post status" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

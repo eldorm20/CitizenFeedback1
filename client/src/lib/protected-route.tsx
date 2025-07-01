@@ -14,8 +14,11 @@ export function ProtectedRoute({
   if (isLoading) {
     return (
       <Route path={path}>
-        <div className="flex items-center justify-center min-h-screen">
-          <Loader2 className="h-8 w-8 animate-spin text-border" />
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-muted-foreground">Загрузка...</p>
+          </div>
         </div>
       </Route>
     );
@@ -29,5 +32,9 @@ export function ProtectedRoute({
     );
   }
 
-  return <Component />
+  return (
+    <Route path={path}>
+      <Component />
+    </Route>
+  );
 }
