@@ -56,6 +56,7 @@ export function CreatePostModal({
       const formData = new FormData();
       formData.append("title", data.title);
       formData.append("content", data.content);
+      formData.append("description", data.description);
       formData.append("category", data.category);
       formData.append("district", data.district);
       

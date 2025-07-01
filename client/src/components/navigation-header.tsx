@@ -6,6 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
 import { useTheme } from "@/components/theme-provider";
+import { useNotifications } from "@/hooks/use-notifications";
+import { LanguageSelector } from "@/components/language-selector";
 import { MessageSquare, Sun, Moon, User, Settings, LogOut, Bell, Plus } from "lucide-react";
 
 interface NavigationHeaderProps {
@@ -16,6 +18,7 @@ interface NavigationHeaderProps {
 export function NavigationHeader({ onCreatePost, showCreateButton = true }: NavigationHeaderProps) {
   const { user, logoutMutation } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { unreadCount } = useNotifications();
 
   const getRoleText = (role: string) => {
     switch (role) {
@@ -89,6 +92,9 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
               </Button>
             )}
 
+            {/* Language Selector */}
+            <LanguageSelector />
+
             {/* Theme Toggle */}
             <Button
               variant="ghost"
@@ -106,7 +112,11 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
             {/* Notifications */}
             <Button variant="ghost" size="sm" className="w-9 h-9 relative">
               <Bell className="h-4 w-4" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              {unreadCount > 0 && (
+                <span className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
             </Button>
 
             {/* User Menu */}

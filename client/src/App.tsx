@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/hooks/use-auth";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/hooks/use-language";
+import { NotificationProvider } from "@/hooks/use-notifications";
 import LandingPage from "@/pages/landing-page";
 import UserDashboard from "@/pages/user-dashboard";
 import GovernmentDashboard from "@/pages/government-dashboard";
@@ -77,12 +79,16 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Router />
-          </TooltipProvider>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <NotificationProvider>
+              <TooltipProvider>
+                <Toaster />
+                <Router />
+              </TooltipProvider>
+            </NotificationProvider>
+          </AuthProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

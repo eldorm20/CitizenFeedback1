@@ -1,5 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { WebSocketServer, WebSocket } from "ws";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { insertPostSchema, insertCommentSchema } from "@shared/schema";
@@ -320,5 +321,101 @@ export function registerRoutes(app: Express): Server {
   });
 
   const httpServer = createServer(app);
+
+  // WebSocket server for real-time notifications
+  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+  
+  // Store connected clients with their user info
+  const clients = new Map<number, WebSocket[]>();
+
+  wss.on('connection', (ws) => {
+    console.log('WebSocket client connected');
+    let userId: number | null = null;
+
+    ws.on('message', (data) => {
+      try {
+        const message = JSON.parse(data.toString());
+        
+        if (message.type === 'auth' && message.userId) {
+          userId = message.userId;
+          
+          // Add client to user's connection list
+          if (!clients.has(userId)) {
+            clients.set(userId, []);
+          }
+          clients.get(userId)!.push(ws);
+          
+          console.log(`User ${userId} connected via WebSocket`);
+        }
+      } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+      }
+    });
+
+    ws.on('close', () => {
+      if (userId) {
+        const userClients = clients.get(userId);
+        if (userClients) {
+          const index = userClients.indexOf(ws);
+          if (index > -1) {
+            userClients.splice(index, 1);
+          }
+          if (userClients.length === 0) {
+            clients.delete(userId);
+          }
+        }
+        console.log(`User ${userId} disconnected from WebSocket`);
+      }
+    });
+  });
+
+  // Function to send notifications to specific users
+  const sendNotification = (userIds: number[], notification: any) => {
+    userIds.forEach(userId => {
+      const userClients = clients.get(userId);
+      if (userClients) {
+        userClients.forEach(ws => {
+          if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+              type: 'notification',
+              ...notification
+            }));
+          }
+        });
+      }
+    });
+  };
+
+  // Add notification sending to post creation
+  const originalCreatePost = storage.createPost.bind(storage);
+  storage.createPost = async (postData: any) => {
+    const post = await originalCreatePost(postData);
+    
+    // Send notification to government users in the same district
+    try {
+      const governmentUsers = await storage.getAllUsers();
+      const relevantGovUsers = governmentUsers.filter(user => 
+        user.role === 'government' && 
+        (user.district === postData.district || !user.district)
+      );
+      
+      if (relevantGovUsers.length > 0) {
+        sendNotification(
+          relevantGovUsers.map(u => u.id),
+          {
+            notificationType: 'post_created',
+            title: 'Новая жалоба',
+            message: `Новая жалоба в категории "${postData.category}": ${postData.title}`,
+            postId: post.id
+          }
+        );
+      }
+    } catch (error) {
+      console.error('Error sending post creation notification:', error);
+    }
+    
+    return post;
+  };
+
   return httpServer;
 }

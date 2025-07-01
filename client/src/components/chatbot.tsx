@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, Send, X, Bot, User, Lightbulb, FileText, MapPin } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { useLanguage } from "@/hooks/use-language";
 
 interface Message {
   id: string;
@@ -22,6 +23,7 @@ interface ChatbotProps {
 
 export function Chatbot({ open, onOpenChange }: ChatbotProps) {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
