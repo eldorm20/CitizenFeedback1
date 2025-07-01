@@ -127,19 +127,26 @@ export function registerRoutes(app: Express): Server {
         timestamp: new Date().toISOString()
       };
 
-      // Get all government users in the same district
+      // Get all government users in the same district, plus government users without district (handle all), plus admins
       const allUsers = await storage.getAllUsers();
       const governmentUsers = allUsers.filter(user => 
-        (user.role === 'government' && user.district === post.district) || 
+        (user.role === 'government' && (user.district === post.district || user.district === null)) || 
         user.role === 'admin'
       );
+      
+      console.log(`Post created in district: ${post.district}`);
+      console.log(`Found ${governmentUsers.length} government users to notify:`, governmentUsers.map(u => ({ id: u.id, username: u.username, district: u.district })));
 
       // Send notifications to government users
       if (governmentUsers.length > 0) {
+        console.log('Sending notifications to user IDs:', governmentUsers.map(user => user.id));
         sendNotification(
           governmentUsers.map(user => user.id), 
           notificationMessage
         );
+        console.log('Notifications sent successfully');
+      } else {
+        console.log('No government users found to notify');
       }
 
       res.status(201).json(post);
@@ -397,17 +404,26 @@ export function registerRoutes(app: Express): Server {
 
   // Function to send notifications to specific users
   const sendNotification = (userIds: number[], notification: any) => {
+    console.log(`Attempting to send notification to ${userIds.length} users:`, userIds);
+    console.log('Current connected clients:', Array.from(clients.keys()));
+    
     userIds.forEach(userId => {
       const userClients = clients.get(userId);
       if (userClients) {
+        console.log(`Found ${userClients.length} connections for user ${userId}`);
         userClients.forEach(ws => {
           if (ws.readyState === WebSocket.OPEN) {
+            console.log(`Sending notification to user ${userId}`);
             ws.send(JSON.stringify({
               type: 'notification',
               ...notification
             }));
+          } else {
+            console.log(`WebSocket for user ${userId} is not open, state:`, ws.readyState);
           }
         });
+      } else {
+        console.log(`No WebSocket connections found for user ${userId}`);
       }
     });
   };
