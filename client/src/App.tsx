@@ -10,6 +10,9 @@ import UserDashboard from "@/pages/user-dashboard";
 import GovernmentDashboard from "@/pages/government-dashboard";
 import AdminDashboard from "@/pages/admin-dashboard";
 import AuthPage from "@/pages/auth-page";
+import ComplaintsPage from "@/pages/complaints-page";
+import InitiativesPage from "@/pages/initiatives-page";
+import StatisticsPage from "@/pages/statistics-page";
 import NotFound from "@/pages/not-found";
 import { ProtectedRoute } from "./lib/protected-route";
 import { Chatbot } from "@/components/chatbot";
@@ -42,6 +45,9 @@ function Router() {
         <Route path="/" component={LandingPage} />
         <Route path="/auth" component={AuthPage} />
         <ProtectedRoute path="/dashboard" component={DashboardRouter} />
+        <ProtectedRoute path="/complaints" component={ComplaintsPage} />
+        <ProtectedRoute path="/initiatives" component={InitiativesPage} />
+        <ProtectedRoute path="/statistics" component={StatisticsPage} />
         <Route component={NotFound} />
       </Switch>
 

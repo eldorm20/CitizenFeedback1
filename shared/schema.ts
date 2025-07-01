@@ -115,6 +115,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
   password: true,
   firstName: true,
   lastName: true,
+  role: true,
 });
 
 export const insertPostSchema = createInsertSchema(posts).omit({
@@ -124,6 +125,8 @@ export const insertPostSchema = createInsertSchema(posts).omit({
   views: true,
   createdAt: true,
   updatedAt: true,
+}).extend({
+  description: z.string().min(1, "Описание обязательно"),
 });
 
 export const insertCommentSchema = createInsertSchema(comments).omit({

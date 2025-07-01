@@ -16,6 +16,8 @@ import { useToast } from "@/hooks/use-toast";
 
 const createPostSchema = insertPostSchema.extend({
   image: z.any().optional(),
+}).omit({ description: true }).extend({
+  description: z.string().min(1, "Краткое описание обязательно"),
 });
 
 type CreatePostFormData = z.infer<typeof createPostSchema>;
@@ -43,6 +45,7 @@ export function CreatePostModal({
     defaultValues: {
       title: "",
       content: "",
+      description: "",
       category: "",
       district: "",
     },
@@ -200,7 +203,23 @@ export function CreatePostModal({
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="content">Описание проблемы</Label>
+            <Label htmlFor="description">Краткое описание</Label>
+            <Input
+              id="description"
+              placeholder="Краткое описание проблемы..."
+              className="glass-input"
+              {...form.register("description")}
+            />
+            {form.formState.errors.description && (
+              <p className="text-sm text-destructive">
+                {form.formState.errors.description.message}
+              </p>
+            )}
+          </div>
+
+          {/* Content */}
+          <div className="space-y-2">
+            <Label htmlFor="content">Подробное описание</Label>
             <Textarea
               id="content"
               rows={4}

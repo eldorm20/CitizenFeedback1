@@ -49,6 +49,30 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                 <span className="text-xl font-bold gradient-text">Muloqot Plus</span>
               </div>
             </Link>
+            
+            {/* Navigation Links */}
+            <nav className="hidden md:flex items-center space-x-4">
+              <Link href="/dashboard">
+                <Button variant="ghost" className="hover:bg-accent/50">
+                  Главная
+                </Button>
+              </Link>
+              <Link href="/complaints">
+                <Button variant="ghost" className="hover:bg-accent/50">
+                  Жалобы
+                </Button>
+              </Link>
+              <Link href="/initiatives">
+                <Button variant="ghost" className="hover:bg-accent/50">
+                  Инициативы
+                </Button>
+              </Link>
+              <Link href="/statistics">
+                <Button variant="ghost" className="hover:bg-accent/50">
+                  Статистика
+                </Button>
+              </Link>
+            </nav>
 
             <nav className="hidden md:flex items-center space-x-4">
               <Link href="/dashboard">
