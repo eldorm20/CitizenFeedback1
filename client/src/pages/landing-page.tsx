@@ -42,13 +42,20 @@ export default function LandingPage() {
         <div className="relative z-10 px-6 lg:px-8 pb-20 pt-10">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 animate-fade-in-up">
-              <span className="gradient-text">Голос граждан</span>
+              <span className="gradient-text">Muloqot Plus</span>
               <br />
-              для лучшего города
+              Официальная платформа граждан
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              Платформа для подачи жалоб, обсуждения проблем и совместного решения вопросов городского развития
+            <p className="text-lg md:text-xl text-muted-foreground mb-4 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              Современная платформа для обращений граждан к органам власти Республики Узбекистан
             </p>
+            <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950 dark:to-green-950 p-4 rounded-lg mb-8 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <p className="text-sm text-center">
+                Соответствует ЗРУ-445 "Об обращениях юридических и физических лиц"
+                <br />
+                Интегрирована с my.gov.uz и Единой линией 1102
+              </p>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <Link href="/auth">
                 <Button size="lg" className="gradient-primary hover-lift text-white">

@@ -20,9 +20,19 @@ const loginSchema = z.object({
 
 const registerSchema = insertUserSchema.extend({
   confirmPassword: z.string(),
+  department: z.string().optional(),
+  governmentId: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Пароли не совпадают",
   path: ["confirmPassword"],
+}).refine((data) => {
+  if (data.role === "government" && !data.governmentId) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Требуется служебный ID для регистрации как представитель власти",
+  path: ["governmentId"],
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -237,6 +247,22 @@ export default function AuthPage() {
                           {registerForm.formState.errors.password.message}
                         </p>
                       )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="register-role">Тип пользователя</Label>
+                      <Select 
+                        defaultValue="citizen" 
+                        onValueChange={(value) => registerForm.setValue("role", value)}
+                      >
+                        <SelectTrigger className="glass-input">
+                          <SelectValue placeholder="Выберите тип пользователя" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="citizen">Гражданин</SelectItem>
+                          <SelectItem value="government">Представитель власти</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     <div className="space-y-2">

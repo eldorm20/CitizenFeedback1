@@ -73,23 +73,6 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                 </Button>
               </Link>
             </nav>
-
-            <nav className="hidden md:flex items-center space-x-4">
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm" className="text-sm">
-                  Главная
-                </Button>
-              </Link>
-              <Button variant="ghost" size="sm" className="text-sm">
-                Жалобы
-              </Button>
-              <Button variant="ghost" size="sm" className="text-sm">
-                Инициативы
-              </Button>
-              <Button variant="ghost" size="sm" className="text-sm">
-                Статистика
-              </Button>
-            </nav>
           </div>
 
           {/* Actions */}
@@ -167,13 +150,17 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                   </div>
                 </div>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  Профиль
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    Профиль
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  Настройки
+                <DropdownMenuItem asChild>
+                  <Link href="/settings" className="flex items-center">
+                    <Settings className="mr-2 h-4 w-4" />
+                    Настройки
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem

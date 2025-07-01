@@ -13,6 +13,8 @@ import AuthPage from "@/pages/auth-page";
 import ComplaintsPage from "@/pages/complaints-page";
 import InitiativesPage from "@/pages/initiatives-page";
 import StatisticsPage from "@/pages/statistics-page";
+import ProfilePage from "@/pages/profile-page";
+import SettingsPage from "@/pages/settings-page";
 import NotFound from "@/pages/not-found";
 import { ProtectedRoute } from "./lib/protected-route";
 import { Chatbot } from "@/components/chatbot";
@@ -48,6 +50,8 @@ function Router() {
         <ProtectedRoute path="/complaints" component={ComplaintsPage} />
         <ProtectedRoute path="/initiatives" component={InitiativesPage} />
         <ProtectedRoute path="/statistics" component={StatisticsPage} />
+        <ProtectedRoute path="/profile" component={ProfilePage} />
+        <ProtectedRoute path="/settings" component={SettingsPage} />
         <Route component={NotFound} />
       </Switch>
 
