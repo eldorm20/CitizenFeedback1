@@ -28,16 +28,19 @@ export function CommentSection({ postId, comments }: CommentSectionProps) {
       return await res.json();
     },
     onSuccess: () => {
+      // Invalidate multiple cache keys to ensure all views are updated
       queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/posts", postId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/posts", postId, "comments"] });
       setNewComment("");
       toast({
-        description: "Комментарий добавлен",
+        description: "Comment added successfully",
       });
     },
     onError: () => {
       toast({
-        title: "Ошибка",
-        description: "Не удалось добавить комментарий",
+        title: "Error",
+        description: "Failed to add comment",
         variant: "destructive",
       });
     },
@@ -50,11 +53,13 @@ export function CommentSection({ postId, comments }: CommentSectionProps) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/posts", postId] });
+      queryClient.invalidateQueries({ queryKey: ["/api/posts", postId, "comments"] });
     },
     onError: () => {
       toast({
-        title: "Ошибка",
-        description: "Не удалось поставить лайк",
+        title: "Error",
+        description: "Failed to like comment",
         variant: "destructive",
       });
     },
@@ -85,9 +90,9 @@ export function CommentSection({ postId, comments }: CommentSectionProps) {
         {comments.map((comment) => (
           <div key={comment.id} className="flex space-x-3">
             <Avatar className="w-8 h-8 flex-shrink-0">
-              <AvatarImage src={comment.author.avatar} />
+              <AvatarImage src={comment.author.avatar || undefined} />
               <AvatarFallback className="gradient-secondary text-white text-xs">
-                {comment.author.firstName?.[0]}{comment.author.lastName?.[0]}
+                {comment.author.firstName?.[0] || 'U'}{comment.author.lastName?.[0] || 'N'}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
@@ -109,7 +114,7 @@ export function CommentSection({ postId, comments }: CommentSectionProps) {
                   className={`p-0 h-auto text-xs ${comment.isLiked ? "text-red-500" : "hover:text-red-500"}`}
                 >
                   <Heart className={`mr-1 h-3 w-3 ${comment.isLiked ? "fill-current" : ""}`} />
-                  {comment.likes > 0 && comment.likes}
+                  {(comment.likes || 0) > 0 && (comment.likes || 0)}
                 </Button>
               </div>
             </div>
@@ -120,9 +125,9 @@ export function CommentSection({ postId, comments }: CommentSectionProps) {
         {user && (
           <form onSubmit={handleSubmit} className="flex space-x-3">
             <Avatar className="w-8 h-8 flex-shrink-0">
-              <AvatarImage src={user.avatar} />
+              <AvatarImage src={user.avatar || undefined} />
               <AvatarFallback className="gradient-primary text-white text-xs">
-                {user.firstName?.[0]}{user.lastName?.[0]}
+                {user.firstName?.[0] || 'U'}{user.lastName?.[0] || 'N'}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">

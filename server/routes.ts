@@ -350,6 +350,18 @@ export function registerRoutes(app: Express): Server {
         authorId: req.user!.id
       });
 
+      // Send WebSocket notification for new comment
+      if (wss) {
+        wss.clients.forEach((client) => {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({
+              type: 'comment_created',
+              data: { postId, comment }
+            }));
+          }
+        });
+      }
+
       res.status(201).json(comment);
     } catch (error) {
       if (error instanceof z.ZodError) {
