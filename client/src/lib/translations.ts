@@ -57,7 +57,11 @@ export const translations = {
     new: "New",
     inProgress: "In Progress",
     resolved: "Resolved",
-    rejected: "Rejected"
+    rejected: "Rejected",
+    
+    // Language-specific
+    language: "Language",
+    currentLanguage: "Current Language"
   },
   
   ru: {
@@ -118,7 +122,11 @@ export const translations = {
     new: "Новый",
     inProgress: "В работе",
     resolved: "Решено",
-    rejected: "Отклонено"
+    rejected: "Отклонено",
+    
+    // Language-specific
+    language: "Язык",
+    currentLanguage: "Текущий язык"
   },
 
   uz: {
@@ -179,7 +187,11 @@ export const translations = {
     new: "Yangi",
     inProgress: "Jarayonda",
     resolved: "Hal qilingan",
-    rejected: "Rad etilgan"
+    rejected: "Rad etilgan",
+    
+    // Language-specific
+    language: "Til",
+    currentLanguage: "Joriy til"
   },
 
   kaa: {
@@ -240,7 +252,11 @@ export const translations = {
     new: "Jańa",
     inProgress: "Islep atır",
     resolved: "Sheshildi",
-    rejected: "Qabıl etilmedi"
+    rejected: "Qabıl etilmedi",
+    
+    // Language-specific
+    language: "Til",
+    currentLanguage: "Házirgi til"
   },
 
   tg: {
@@ -259,6 +275,7 @@ export const translations = {
     // Common
     welcomeMessage: "Хуш омадед",
     createPost: "Муроҷиат эҷод кардан",
+    createComplaint: "Шикоят эҷод кардан",
     title: "Сарлавҳа",
     description: "Тавсиф",
     category: "Категория",
@@ -270,6 +287,22 @@ export const translations = {
     loading: "Бор шуда истодааст...",
     error: "Хатогӣ",
     success: "Бомуваффақият",
+    
+    // Additional keys
+    admin: "Маъмур",
+    government: "Ҳукумат",
+    citizen: "Шаҳрванд",
+    adminDashboard: "Лавҳаи маъмур",
+    governmentDashboard: "Лавҳаи ҳукумат",
+    totalPosts: "Ҳамаи муроҷиатҳо",
+    totalUsers: "Ҳамаи корбарон",
+    platformDescription: "Идоракунии шикоятҳо ва ташаббусҳо",
+    notifications: "Огоҳиҳо",
+    markAllRead: "Ҳамеро хондашуда қайд кардан",
+    noNotifications: "Огоҳиҳо нестанд",
+    errorOccurred: "Хатогӣ рух дод",
+    tryAgain: "Аз нав кӯшиш кунед",
+    noDataFound: "Маълумот ёфт нашуд",
     
     // Categories
     roads: "Роҳҳо",
@@ -284,7 +317,11 @@ export const translations = {
     new: "Нав",
     inProgress: "Дар ҷараён",
     resolved: "Ҳал шуда",
-    rejected: "Рад шуда"
+    rejected: "Рад шуда",
+    
+    // Language-specific
+    language: "Забон",
+    currentLanguage: "Забони ҷорӣ"
   }
 };
 
