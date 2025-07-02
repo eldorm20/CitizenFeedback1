@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { useAuth } from "@/hooks/use-auth";
 import { useTheme } from "@/components/theme-provider";
 import { useNotifications } from "@/hooks/use-notifications";
+import { useLanguage } from "@/hooks/use-language";
 import { LanguageSelector } from "@/components/language-selector";
 import { MessageSquare, Sun, Moon, User, Settings, LogOut, Bell, Plus } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
@@ -21,12 +22,13 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
   const { user, logoutMutation } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+  const { t } = useLanguage();
 
   const getRoleText = (role: string) => {
     switch (role) {
-      case "admin": return "Администратор";
-      case "government": return "Правительство";
-      default: return "Пользователь";
+      case "admin": return t("admin");
+      case "government": return t("government");
+      default: return t("citizen");
     }
   };
 
@@ -59,22 +61,22 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
             <nav className="hidden md:flex items-center space-x-4">
               <Link href="/dashboard">
                 <Button variant="ghost" className="hover:bg-accent/50">
-                  Главная
+                  {t("home")}
                 </Button>
               </Link>
               <Link href="/complaints">
                 <Button variant="ghost" className="hover:bg-accent/50">
-                  Жалобы
+                  {t("complaints")}
                 </Button>
               </Link>
               <Link href="/initiatives">
                 <Button variant="ghost" className="hover:bg-accent/50">
-                  Инициативы
+                  {t("initiatives")}
                 </Button>
               </Link>
               <Link href="/statistics">
                 <Button variant="ghost" className="hover:bg-accent/50">
-                  Статистика
+                  {t("statistics")}
                 </Button>
               </Link>
             </nav>
@@ -90,7 +92,7 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                 size="sm"
               >
                 <Plus className="w-4 h-4 mr-2" />
-                Создать обращение
+                {t("createComplaint")}
               </Button>
             )}
 
@@ -125,7 +127,7 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-80 max-h-96 overflow-y-auto">
                 <div className="flex items-center justify-between p-4 border-b">
-                  <h3 className="font-semibold">Уведомления</h3>
+                  <h3 className="font-semibold">{t("notifications") || "Notifications"}</h3>
                   {unreadCount > 0 && (
                     <Button 
                       variant="ghost" 
@@ -133,13 +135,13 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                       onClick={markAllAsRead}
                       className="text-xs"
                     >
-                      Отметить все как прочитанные
+                      {t("markAllRead") || "Mark all read"}
                     </Button>
                   )}
                 </div>
                 {notifications.length === 0 ? (
                   <div className="p-4 text-center text-muted-foreground">
-                    Нет уведомлений
+                    {t("noNotifications") || "No notifications"}
                   </div>
                 ) : (
                   <div className="max-h-80 overflow-y-auto">
@@ -222,13 +224,13 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                 <DropdownMenuItem asChild>
                   <Link href="/profile" className="flex items-center">
                     <User className="mr-2 h-4 w-4" />
-                    Профиль
+                    {t("profile")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/settings" className="flex items-center">
                     <Settings className="mr-2 h-4 w-4" />
-                    Настройки
+                    {t("settings")}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -237,7 +239,7 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                   className="text-red-600 focus:text-red-600"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
-                  Выйти
+                  {t("logout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

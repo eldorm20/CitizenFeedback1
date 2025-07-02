@@ -61,6 +61,14 @@ export interface IStorage {
   markNotificationAsRead(id: number): Promise<void>;
   markAllNotificationsAsRead(userId: number): Promise<void>;
   
+  // Government methods
+  updatePostOfficialResponse(id: number, response: {
+    officialResponse: string;
+    status?: string;
+    responseDate?: Date;
+    estimatedResolution?: Date | null;
+  }): Promise<void>;
+  
   sessionStore: any;
 }
 
@@ -386,6 +394,24 @@ export class DatabaseStorage implements IStorage {
       .update(notifications)
       .set({ read: true })
       .where(eq(notifications.userId, userId));
+  }
+
+  async updatePostOfficialResponse(id: number, response: {
+    officialResponse: string;
+    status?: string;
+    responseDate?: Date;
+    estimatedResolution?: Date | null;
+  }): Promise<void> {
+    await db
+      .update(posts)
+      .set({
+        officialResponse: response.officialResponse,
+        status: response.status || 'in_progress',
+        responseDate: response.responseDate,
+        estimatedResolution: response.estimatedResolution,
+        updatedAt: new Date()
+      })
+      .where(eq(posts.id, id));
   }
 
   async voteOnPost(postId: number, userId: number, voteType: 'upvote' | 'downvote'): Promise<boolean> {

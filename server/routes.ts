@@ -7,6 +7,7 @@ import { insertPostSchema, insertCommentSchema } from "@shared/schema";
 import { z } from "zod";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+import { routeComplaintToAgency, updateAgencyLoad, generateInternalId, getAllAgencies, getTopPerformingAgencies } from "./government-routing";
 
 // Configure Cloudinary
 cloudinary.config({
@@ -111,20 +112,52 @@ export function registerRoutes(app: Express): Server {
         }
       }
 
+      // Only route complaints to government agencies (not initiatives)
+      let routingResult = null;
+      let assignedAgency = null;
+      let agencyContact = null;
+      let internalId = null;
+
+      if (postData.type === 'complaint') {
+        // Intelligent routing to appropriate government agency
+        routingResult = routeComplaintToAgency(
+          postData.category,
+          postData.district,
+          postData.content,
+          postData.priority || 'medium'
+        );
+        
+        assignedAgency = routingResult.agency.name;
+        agencyContact = routingResult.agency.contact;
+        internalId = generateInternalId(routingResult.agency.id, postData.category);
+        
+        // Update agency load
+        updateAgencyLoad(routingResult.agency.id, 1);
+        
+        console.log(`🏛️ INTELLIGENT ROUTING: Complaint "${postData.title}" routed to ${assignedAgency} (Confidence: ${routingResult.confidence}%). Reason: ${routingResult.reasoning}`);
+      }
+
       const post = await storage.createPost({
         ...postData,
         imageUrl,
-        authorId: req.user!.id
+        authorId: req.user!.id,
+        assignedAgency,
+        agencyContact,
+        internalId
       });
 
-      // Send notification to government users in the same district
+      // Enhanced notification system with routing info
       const notificationMessage = {
         type: "post_created",
-        title: "Новое обращение",
-        message: `Новое обращение "${post.title}" в категории ${post.category}`,
+        title: postData.type === 'complaint' ? "Новая жалоба" : "Новая инициатива",
+        message: postData.type === 'complaint' 
+          ? `Жалоба "${post.title}" направлена в ${assignedAgency}. Номер: ${internalId}`
+          : `Новая инициатива "${post.title}" требует голосования`,
         postId: post.id,
         district: post.district,
         category: post.category,
+        assignedAgency,
+        internalId,
         timestamp: new Date().toISOString()
       };
 
@@ -572,6 +605,100 @@ export function registerRoutes(app: Express): Server {
     
     return post;
   };
+
+  // Government agency routes
+  app.get("/api/government/agencies", async (req, res) => {
+    try {
+      const agencies = getAllAgencies();
+      res.json(agencies);
+    } catch (error) {
+      console.error("Error fetching agencies:", error);
+      res.status(500).json({ error: "Failed to fetch agencies" });
+    }
+  });
+
+  app.get("/api/government/top-agencies", async (req, res) => {
+    try {
+      const { limit = "5" } = req.query;
+      const topAgencies = getTopPerformingAgencies(parseInt(limit as string));
+      res.json(topAgencies);
+    } catch (error) {
+      console.error("Error fetching top agencies:", error);
+      res.status(500).json({ error: "Failed to fetch top agencies" });
+    }
+  });
+
+  // Government admin panel routes
+  app.post("/api/posts/:id/official-response", async (req, res) => {
+    if (!req.isAuthenticated() || (req.user?.role !== 'government' && req.user?.role !== 'admin')) {
+      return res.status(403).json({ error: "Government access required" });
+    }
+
+    try {
+      const postId = parseInt(req.params.id);
+      const { officialResponse, status, estimatedResolution } = req.body;
+      
+      if (!officialResponse) {
+        return res.status(400).json({ error: "Official response is required" });
+      }
+
+      await storage.updatePostOfficialResponse(postId, {
+        officialResponse,
+        status: status || 'in_progress',
+        responseDate: new Date(),
+        estimatedResolution: estimatedResolution ? new Date(estimatedResolution) : null
+      });
+
+      // Send notification to complaint author
+      const post = await storage.getPost(postId);
+      if (post) {
+        await storage.createNotification({
+          userId: post.authorId,
+          type: 'official_response',
+          title: 'Получен официальный ответ',
+          message: `На вашу жалобу "${post.title}" получен официальный ответ.`,
+          postId: post.id,
+          read: false
+        });
+      }
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error posting official response:", error);
+      res.status(500).json({ error: "Failed to post official response" });
+    }
+  });
+
+  app.get("/api/government/dashboard", async (req, res) => {
+    if (!req.isAuthenticated() || (req.user?.role !== 'government' && req.user?.role !== 'admin')) {
+      return res.status(403).json({ error: "Government access required" });
+    }
+
+    try {
+      // Get posts assigned to user's district or agency
+      const userDistrict = req.user?.district;
+      const posts = await storage.getPosts({
+        district: userDistrict,
+        type: 'complaint',
+        limit: 100
+      });
+
+      // Calculate statistics
+      const stats = {
+        totalComplaints: posts.length,
+        newComplaints: posts.filter(p => p.status === 'new').length,
+        inProgressComplaints: posts.filter(p => p.status === 'in_progress').length,
+        resolvedComplaints: posts.filter(p => p.status === 'resolved').length,
+        avgResponseTime: 0, // Calculate based on response dates
+        myDistrict: userDistrict
+      };
+
+      res.json({ stats, recentComplaints: posts.slice(0, 10) });
+    } catch (error) {
+      console.error("Error fetching government dashboard:", error);
+      res.status(500).json({ error: "Failed to fetch dashboard data" });
+    }
+  });
 
   return httpServer;
 }

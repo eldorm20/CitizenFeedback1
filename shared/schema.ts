@@ -37,6 +37,12 @@ export const posts = pgTable("posts", {
   views: integer("views").default(0),
   priority: text("priority").default("medium"), // low, medium, high, urgent
   tags: text("tags").array(), // Searchable tags
+  assignedAgency: text("assigned_agency"), // автоматически назначенное ведомство
+  agencyContact: text("agency_contact"), // контакт ответственного
+  officialResponse: text("official_response"), // официальный ответ власти
+  responseDate: timestamp("response_date"), // дата ответа
+  internalId: text("internal_id"), // внутренний номер в ведомстве
+  estimatedResolution: timestamp("estimated_resolution"), // планируемая дата решения
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

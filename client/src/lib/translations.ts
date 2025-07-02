@@ -71,6 +71,9 @@ export const translations = {
     all: "All",
     
     // Notifications
+    notifications: "Notifications",
+    markAllRead: "Mark all as read",
+    noNotifications: "No notifications",
     postCreated: "Complaint created successfully",
     postUpdated: "Status updated successfully",
     loginSuccess: "Login successful",
@@ -161,6 +164,9 @@ export const translations = {
     all: "Все",
     
     // Notifications
+    notifications: "Уведомления",
+    markAllRead: "Отметить все как прочитанные",
+    noNotifications: "Нет уведомлений",
     postCreated: "Жалоба успешно создана",
     postUpdated: "Статус успешно обновлен",
     loginSuccess: "Вход выполнен успешно",
@@ -251,6 +257,9 @@ export const translations = {
     all: "Hammasi",
     
     // Notifications
+    notifications: "Bildirishnomalar",
+    markAllRead: "Barchasini o'qilgan deb belgilash",
+    noNotifications: "Bildirishnomalar yo'q",
     postCreated: "Shikoyat muvaffaqiyatli yaratildi",
     postUpdated: "Status muvaffaqiyatli yangilandi",
     loginSuccess: "Kirish muvaffaqiyatli amalga oshirildi",
