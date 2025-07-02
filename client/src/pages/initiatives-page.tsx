@@ -30,23 +30,22 @@ export default function InitiativesPage() {
   });
 
   const { data: posts = [], isLoading } = useQuery<PostWithAuthor[]>({
-    queryKey: ["/api/posts", filters],
+    queryKey: ["/api/posts", "initiatives", filters],
     queryFn: async () => {
       const params = new URLSearchParams();
+      params.set("type", "initiative"); // Only fetch initiatives
       if (filters.category) params.set("category", filters.category);
       if (filters.district) params.set("district", filters.district);
       if (filters.search) params.set("search", filters.search);
       
       const response = await fetch(`/api/posts?${params}`);
-      if (!response.ok) throw new Error("Failed to fetch posts");
+      if (!response.ok) throw new Error("Failed to fetch initiatives");
       return response.json();
     }
   });
 
-  // Filter posts for initiatives only
-  const initiatives = posts.filter(post => 
-    post.category === "Благоустройство" || post.title.toLowerCase().includes("инициатива")
-  );
+  // All posts are already initiatives from the API filter
+  const initiatives = posts;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">

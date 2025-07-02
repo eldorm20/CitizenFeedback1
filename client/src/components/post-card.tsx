@@ -5,8 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { CommentSection } from "./comment-section";
+import { VoteButtons } from "./vote-buttons";
 import { PostWithAuthor } from "@shared/schema";
-import { Heart, MessageCircle, Share2, Eye } from "lucide-react";
+import { Heart, MessageCircle, Share2, Eye, Lightbulb, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface PostCardProps {
@@ -106,9 +107,16 @@ export function PostCard({ post }: PostCardProps) {
         </div>
 
         {/* Post Content */}
-        <h3 className="text-xl font-semibold text-foreground mb-3">
-          {post.title}
-        </h3>
+        <div className="flex items-center gap-2 mb-3">
+          {post.type === 'initiative' ? (
+            <Lightbulb className="h-5 w-5 text-blue-500" />
+          ) : (
+            <AlertTriangle className="h-5 w-5 text-orange-500" />
+          )}
+          <h3 className="text-xl font-semibold text-foreground">
+            {post.title}
+          </h3>
+        </div>
         <p className="text-muted-foreground mb-4 leading-relaxed">
           {post.content}
         </p>
@@ -127,16 +135,26 @@ export function PostCard({ post }: PostCardProps) {
         {/* Post Actions */}
         <div className="flex items-center justify-between pt-4 border-t border-border">
           <div className="flex items-center space-x-6">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => likeMutation.mutate()}
-              disabled={likeMutation.isPending}
-              className={`transition-colors ${post.isLiked ? "text-red-500 hover:text-red-600" : "text-muted-foreground hover:text-red-500"}`}
-            >
-              <Heart className={`mr-2 h-4 w-4 ${post.isLiked ? "fill-current" : ""}`} />
-              {post.likes}
-            </Button>
+            {/* Show voting for initiatives, likes for complaints */}
+            {post.type === 'initiative' ? (
+              <VoteButtons 
+                postId={post.id} 
+                votes={post.votes || 0} 
+                userVote={post.userVote}
+                className="mr-2"
+              />
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => likeMutation.mutate()}
+                disabled={likeMutation.isPending}
+                className={`transition-colors ${post.isLiked ? "text-red-500 hover:text-red-600" : "text-muted-foreground hover:text-red-500"}`}
+              >
+                <Heart className={`mr-2 h-4 w-4 ${post.isLiked ? "fill-current" : ""}`} />
+                {post.likes}
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="sm"

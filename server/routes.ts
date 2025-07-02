@@ -52,13 +52,14 @@ export function registerRoutes(app: Express): Server {
   // Posts routes
   app.get("/api/posts", async (req, res) => {
     try {
-      const { category, district, search, page = "1", limit = "20" } = req.query;
+      const { category, district, search, type, page = "1", limit = "20" } = req.query;
       const userId = req.user?.id;
       
       const posts = await storage.getPosts({
         category: category as string,
         district: district as string,
         search: search as string,
+        type: type as string,
         limit: parseInt(limit as string),
         offset: (parseInt(page as string) - 1) * parseInt(limit as string),
         userId
@@ -234,6 +235,57 @@ export function registerRoutes(app: Express): Server {
     } catch (error) {
       console.error("Error toggling post like:", error);
       res.status(500).json({ error: "Failed to toggle like" });
+    }
+  });
+
+  // Vote routes
+  app.post("/api/posts/:id/vote", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    try {
+      const postId = parseInt(req.params.id);
+      const { voteType } = req.body;
+      
+      if (!voteType || !['upvote', 'downvote'].includes(voteType)) {
+        return res.status(400).json({ error: "Invalid vote type" });
+      }
+
+      const voted = await storage.voteOnPost(postId, req.user!.id, voteType);
+      const voteCount = await storage.getPostVoteCount(postId);
+      
+      res.json({ 
+        voted, 
+        votes: voteCount.upvotes - voteCount.downvotes,
+        upvotes: voteCount.upvotes,
+        downvotes: voteCount.downvotes
+      });
+    } catch (error) {
+      console.error("Error voting on post:", error);
+      res.status(500).json({ error: "Failed to vote on post" });
+    }
+  });
+
+  app.get("/api/posts/:id/votes", async (req, res) => {
+    try {
+      const postId = parseInt(req.params.id);
+      const voteCount = await storage.getPostVoteCount(postId);
+      
+      let userVote = null;
+      if (req.isAuthenticated()) {
+        userVote = await storage.getUserVoteOnPost(postId, req.user!.id);
+      }
+      
+      res.json({ 
+        votes: voteCount.upvotes - voteCount.downvotes,
+        upvotes: voteCount.upvotes,
+        downvotes: voteCount.downvotes,
+        userVote
+      });
+    } catch (error) {
+      console.error("Error getting post votes:", error);
+      res.status(500).json({ error: "Failed to get post votes" });
     }
   });
 

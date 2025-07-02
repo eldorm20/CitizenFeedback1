@@ -1,4 +1,4 @@
-import { users, posts, comments, postLikes, commentLikes, notifications, type User, type InsertUser, type Post, type InsertPost, type Comment, type InsertComment, type PostWithAuthor, type CommentWithAuthor, type Notification, type InsertNotification } from "@shared/schema";
+import { users, posts, comments, postLikes, commentLikes, postVotes, notifications, type User, type InsertUser, type Post, type InsertPost, type Comment, type InsertComment, type PostVote, type PostWithAuthor, type CommentWithAuthor, type Notification, type InsertNotification } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, sql, count, ilike, or } from "drizzle-orm";
 import session from "express-session";
@@ -19,6 +19,7 @@ export interface IStorage {
     category?: string;
     district?: string;
     search?: string;
+    type?: string;
     limit?: number;
     offset?: number;
     userId?: number;
@@ -37,6 +38,11 @@ export interface IStorage {
   // Like methods
   togglePostLike(postId: number, userId: number): Promise<boolean>;
   toggleCommentLike(commentId: number, userId: number): Promise<boolean>;
+  
+  // Vote methods
+  voteOnPost(postId: number, userId: number, voteType: 'upvote' | 'downvote'): Promise<boolean>;
+  getPostVoteCount(postId: number): Promise<{ upvotes: number; downvotes: number }>;
+  getUserVoteOnPost(postId: number, userId: number): Promise<'upvote' | 'downvote' | null>;
   
   // Admin methods
   getStats(): Promise<{
@@ -95,6 +101,7 @@ export class DatabaseStorage implements IStorage {
     category?: string;
     district?: string;
     search?: string;
+    type?: string;
     limit?: number;
     offset?: number;
     userId?: number;
@@ -103,6 +110,7 @@ export class DatabaseStorage implements IStorage {
       category,
       district,
       search,
+      type,
       limit = 20,
       offset = 0,
       userId
@@ -115,6 +123,9 @@ export class DatabaseStorage implements IStorage {
     }
     if (district) {
       conditions.push(eq(posts.district, district));
+    }
+    if (type) {
+      conditions.push(eq(posts.type, type));
     }
     if (search) {
       conditions.push(
@@ -375,6 +386,82 @@ export class DatabaseStorage implements IStorage {
       .update(notifications)
       .set({ read: true })
       .where(eq(notifications.userId, userId));
+  }
+
+  async voteOnPost(postId: number, userId: number, voteType: 'upvote' | 'downvote'): Promise<boolean> {
+    try {
+      // First, check if user already voted
+      const existingVote = await db
+        .select()
+        .from(postVotes)
+        .where(and(eq(postVotes.postId, postId), eq(postVotes.userId, userId)))
+        .limit(1);
+
+      if (existingVote.length > 0) {
+        // Update existing vote
+        if (existingVote[0].voteType === voteType) {
+          // Remove vote if clicking same vote type
+          await db
+            .delete(postVotes)
+            .where(and(eq(postVotes.postId, postId), eq(postVotes.userId, userId)));
+          await this.updatePostVoteCount(postId);
+          return false;
+        } else {
+          // Change vote type
+          await db
+            .update(postVotes)
+            .set({ voteType })
+            .where(and(eq(postVotes.postId, postId), eq(postVotes.userId, userId)));
+        }
+      } else {
+        // Create new vote
+        await db
+          .insert(postVotes)
+          .values({ postId, userId, voteType });
+      }
+
+      await this.updatePostVoteCount(postId);
+      return true;
+    } catch (error) {
+      console.error('Error voting on post:', error);
+      return false;
+    }
+  }
+
+  private async updatePostVoteCount(postId: number): Promise<void> {
+    const [voteCount] = await db
+      .select({
+        votes: sql<number>`cast(count(case when ${postVotes.voteType} = 'upvote' then 1 end) - count(case when ${postVotes.voteType} = 'downvote' then 1 end) as int)`
+      })
+      .from(postVotes)
+      .where(eq(postVotes.postId, postId));
+
+    await db
+      .update(posts)  
+      .set({ votes: voteCount.votes })
+      .where(eq(posts.id, postId));
+  }
+
+  async getPostVoteCount(postId: number): Promise<{ upvotes: number; downvotes: number }> {
+    const [result] = await db
+      .select({
+        upvotes: sql<number>`cast(count(case when ${postVotes.voteType} = 'upvote' then 1 end) as int)`,
+        downvotes: sql<number>`cast(count(case when ${postVotes.voteType} = 'downvote' then 1 end) as int)`
+      })
+      .from(postVotes)
+      .where(eq(postVotes.postId, postId));
+
+    return result || { upvotes: 0, downvotes: 0 };
+  }
+
+  async getUserVoteOnPost(postId: number, userId: number): Promise<'upvote' | 'downvote' | null> {
+    const [vote] = await db
+      .select()
+      .from(postVotes)
+      .where(and(eq(postVotes.postId, postId), eq(postVotes.userId, userId)))
+      .limit(1);
+
+    return vote ? (vote.voteType as 'upvote' | 'downvote') : null;
   }
 }
 

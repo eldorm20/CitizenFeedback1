@@ -2,7 +2,15 @@
 
 ## Overview
 
-Muloqot Plus is a full-stack web application designed as a civic complaint platform where citizens can submit and manage complaints about city issues. The application features a modern React frontend with shadcn/ui components, an Express.js backend with PostgreSQL database, and includes features like user authentication, post management, commenting, and an admin panel.
+Muloqot Plus is a comprehensive community-driven platform for citizen complaints, discussions, and initiatives in Uzbekistan. The platform enables citizens to submit complaints with photos/videos and geolocation, propose initiatives, vote on proposals, and track resolution status. Government officials receive notifications and can manage complaint statuses, while administrators oversee the entire system with analytics and moderation tools.
+
+**Core Features:**
+- Citizen complaint submission with media and geolocation
+- Initiative proposals and voting system
+- Real-time notifications for government officials
+- Multi-language support (English, Russian, Uzbek)
+- Role-based authentication (citizens, government, admin)
+- Compliance with Uzbekistan government regulations (ЗRU-445)
 
 ## System Architecture
 
@@ -123,6 +131,15 @@ Muloqot Plus is a full-stack web application designed as a civic complaint platf
   - **VERIFIED WORKING**: Government users now receive notifications regardless of online status
   - Successfully tested: 5 government users received persistent notifications for new complaint
   - System now handles both real-time (WebSocket) and persistent (database) notifications
+- July 02, 2025: **MAJOR ENHANCEMENT - Implemented Complete Initiative System**
+  - **Enhanced Database Schema**: Added post types (complaint/initiative), voting system, geolocation, tags
+  - **Voting Functionality**: Created voting API endpoints and VoteButtons component with upvote/downvote
+  - **Initiative Support**: Separate post type with voting instead of likes, visual distinction with icons
+  - **Type-Based Filtering**: API supports filtering by post type, initiatives page shows only initiatives
+  - **Visual Enhancements**: Type-specific icons (lightbulb for initiatives, alert for complaints)
+  - **Database Tables**: Added post_votes table with user vote tracking and conflict resolution
+  - **User Experience**: Dynamic form titles, conditional UI elements based on post type
+  - **Technical Compliance**: Aligned with specification requirements for initiative voting and complaint management
 
 ## User Preferences
 

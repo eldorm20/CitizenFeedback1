@@ -16,6 +16,13 @@ import { useToast } from "@/hooks/use-toast";
 
 const createPostSchema = insertPostSchema.extend({
   image: z.any().optional(),
+  type: z.enum(['complaint', 'initiative']).default('complaint'),
+  location: z.object({
+    lat: z.number(),
+    lng: z.number(), 
+    address: z.string()
+  }).optional(),
+  tags: z.array(z.string()).optional().default([]),
 }).omit({ description: true }).extend({
   description: z.string().min(1, "Краткое описание обязательно"),
 });
@@ -48,6 +55,8 @@ export function CreatePostModal({
       description: "",
       category: "",
       district: "",
+      type: "complaint",
+      tags: [],
     },
   });
 
@@ -131,7 +140,9 @@ export function CreatePostModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-semibold">Создать жалобу</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold">
+            {form.watch("type") === "initiative" ? "Создать инициативу" : "Создать жалобу"}
+          </DialogTitle>
         </DialogHeader>
         
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -149,6 +160,23 @@ export function CreatePostModal({
                 {form.formState.errors.title.message}
               </p>
             )}
+          </div>
+
+          {/* Type Selection */}
+          <div className="space-y-2">
+            <Label>Тип обращения</Label>
+            <Select
+              value={form.watch("type")}
+              onValueChange={(value) => form.setValue("type", value as "complaint" | "initiative")}
+            >
+              <SelectTrigger className="glass-input">
+                <SelectValue placeholder="Выберите тип" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="complaint">Жалоба</SelectItem>
+                <SelectItem value="initiative">Инициатива</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Category and District */}

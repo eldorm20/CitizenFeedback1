@@ -26,10 +26,17 @@ export const posts = pgTable("posts", {
   category: text("category").notNull(),
   district: text("district").notNull(),
   status: text("status").default("new"), // new, in_progress, resolved, rejected
+  type: text("type").default("complaint"), // complaint, initiative
   imageUrl: text("image_url"),
+  videoUrl: text("video_url"), // Support for video uploads
+  mediaUrls: text("media_urls").array(), // Multiple media files
+  location: jsonb("location"), // {lat: number, lng: number, address: string}
   authorId: integer("author_id").references(() => users.id).notNull(),
   likes: integer("likes").default(0),
+  votes: integer("votes").default(0), // For initiatives voting
   views: integer("views").default(0),
+  priority: text("priority").default("medium"), // low, medium, high, urgent
+  tags: text("tags").array(), // Searchable tags
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -57,6 +64,14 @@ export const commentLikes = pgTable("comment_likes", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const postVotes = pgTable("post_votes", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").references(() => posts.id).notNull(),
+  userId: integer("user_id").references(() => users.id).notNull(),
+  voteType: text("vote_type").notNull(), // upvote, downvote
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const notifications = pgTable("notifications", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
@@ -74,6 +89,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   comments: many(comments),
   postLikes: many(postLikes),
   commentLikes: many(commentLikes),
+  postVotes: many(postVotes),
   notifications: many(notifications),
 }));
 
@@ -84,6 +100,7 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
   }),
   comments: many(comments),
   postLikes: many(postLikes),
+  postVotes: many(postVotes),
 }));
 
 export const commentsRelations = relations(comments, ({ one, many }) => ({
@@ -116,6 +133,17 @@ export const commentLikesRelations = relations(commentLikes, ({ one }) => ({
   }),
   user: one(users, {
     fields: [commentLikes.userId],
+    references: [users.id],
+  }),
+}));
+
+export const postVotesRelations = relations(postVotes, ({ one }) => ({
+  post: one(posts, {
+    fields: [postVotes.postId],
+    references: [posts.id],
+  }),
+  user: one(users, {
+    fields: [postVotes.userId],
     references: [users.id],
   }),
 }));
@@ -168,12 +196,15 @@ export type InsertComment = z.infer<typeof insertCommentSchema>;
 export type Comment = typeof comments.$inferSelect;
 export type PostLike = typeof postLikes.$inferSelect;
 export type CommentLike = typeof commentLikes.$inferSelect;
+export type PostVote = typeof postVotes.$inferSelect;
 
 // Extended types with relations
 export type PostWithAuthor = Post & {
   author: User;
   comments: (Comment & { author: User })[];
   isLiked?: boolean;
+  userVote?: 'upvote' | 'downvote' | null;
+  votesCount?: number;
 };
 
 export type CommentWithAuthor = Comment & {
