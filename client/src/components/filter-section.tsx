@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search } from "lucide-react";
+import { useLanguage } from "@/hooks/use-language";
 
 interface FilterSectionProps {
   filters: {
@@ -20,6 +21,8 @@ export function FilterSection({
   categories, 
   districts 
 }: FilterSectionProps) {
+  const { t } = useLanguage();
+  
   const updateFilter = (key: string, value: string) => {
     // Convert "all" back to empty string for API compatibility
     const actualValue = value === "all" ? "" : value;
@@ -73,10 +76,10 @@ export function FilterSection({
                 onValueChange={(value) => updateFilter("district", value)}
               >
                 <SelectTrigger className="w-48 glass-input">
-                  <SelectValue placeholder="Выберите район" />
+                  <SelectValue placeholder={t("selectDistrict")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Все районы</SelectItem>
+                  <SelectItem value="all">{t("allDistricts")}</SelectItem>
                   {districts.map((district) => (
                     <SelectItem key={district} value={district}>
                       {district}
@@ -90,9 +93,9 @@ export function FilterSection({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="new">Новые</SelectItem>
-                  <SelectItem value="popular">Популярные</SelectItem>
-                  <SelectItem value="resolved">Решенные</SelectItem>
+                  <SelectItem value="new">{t("newComplaints")}</SelectItem>
+                  <SelectItem value="popular">{t("popular")}</SelectItem>
+                  <SelectItem value="resolved">{t("resolved")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>

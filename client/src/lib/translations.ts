@@ -61,7 +61,13 @@ export const translations = {
     
     // Language-specific
     language: "Language",
-    currentLanguage: "Current Language"
+    currentLanguage: "Current Language",
+    districts: "Districts",
+    submitComplaint: "Submit Complaint",
+    selectDistrict: "Select District",
+    allDistricts: "All Districts",
+    newComplaints: "New",
+    popular: "Popular"
   },
   
   ru: {
@@ -126,7 +132,13 @@ export const translations = {
     
     // Language-specific
     language: "Язык",
-    currentLanguage: "Текущий язык"
+    currentLanguage: "Текущий язык",
+    districts: "Районы",
+    submitComplaint: "Подать жалобу",
+    selectDistrict: "Выберите район",
+    allDistricts: "Все районы",
+    newComplaints: "Новые",
+    popular: "Популярные"
   },
 
   uz: {
@@ -191,7 +203,13 @@ export const translations = {
     
     // Language-specific
     language: "Til",
-    currentLanguage: "Joriy til"
+    currentLanguage: "Joriy til",
+    districts: "Tumanlar",
+    submitComplaint: "Shikoyat yuborish",
+    selectDistrict: "Tumanni tanlang",
+    allDistricts: "Barcha tumanlar",
+    newComplaints: "Yangi",
+    popular: "Mashhur"
   },
 
   kaa: {
@@ -256,7 +274,13 @@ export const translations = {
     
     // Language-specific
     language: "Til",
-    currentLanguage: "Házirgi til"
+    currentLanguage: "Házirgi til",
+    districts: "Rayonlar",
+    submitComplaint: "Shikayat jollash",
+    selectDistrict: "Rayondi saylań",
+    allDistricts: "Barlıq rayonlar",
+    newComplaints: "Jaña",
+    popular: "Háp tanılgan"
   },
 
   tg: {
@@ -321,7 +345,13 @@ export const translations = {
     
     // Language-specific
     language: "Забон",
-    currentLanguage: "Забони ҷорӣ"
+    currentLanguage: "Забони ҷорӣ",
+    districts: "Ноҳияҳо",
+    submitComplaint: "Шикоят пешниҳод",
+    selectDistrict: "Ноҳияро интихоб кунед",
+    allDistricts: "Ҳамаи ноҳияҳо",
+    newComplaints: "Нав",
+    popular: "Маъмул"
   }
 };
 

@@ -34,12 +34,12 @@ export default function HomePage() {
 
   const CATEGORIES = [
     t("roads"), t("housing"), t("transport"), t("environment"), 
-    "Парки", t("utilities")
+    t("parks"), t("utilities")
   ];
 
   const DISTRICTS = [
-    "Чиланзарский", "Юнусабадский", "Мирзо-Улугбекский", 
-    "Сергелийский", "Алмазарский", "Шайхантахурский"
+    "Chilanzar", "Yunusabad", "Mirzo-Ulughbek", 
+    "Sergeli", "Almazar", "Shaykhantakhur"
   ];
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
@@ -175,7 +175,7 @@ export default function HomePage() {
                 className="gradient-primary shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
               >
                 <Plus className="mr-2 h-4 w-4" />
-                Подать жалобу
+{t("submitComplaint")}
               </Button>
               <Button 
                 variant="outline" 
@@ -183,7 +183,7 @@ export default function HomePage() {
                 className="glass-input shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <BarChart3 className="mr-2 h-4 w-4" />
-                Статистика
+                {t("statistics")}
               </Button>
             </div>
 
@@ -193,23 +193,23 @@ export default function HomePage() {
                 <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                   {displayStats.totalPosts}
                 </div>
-                <div className="text-muted-foreground font-medium">Всего жалоб</div>
+                <div className="text-muted-foreground font-medium">{t("totalPosts")}</div>
               </div>
               <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
                 <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">
                   {displayStats.resolvedPosts}
                 </div>
-                <div className="text-muted-foreground font-medium">Решено</div>
+                <div className="text-muted-foreground font-medium">{t("resolved")}</div>
               </div>
               <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
                 <div className="text-3xl font-bold text-amber-600 dark:text-amber-400 mb-2">
                   {displayStats.totalUsers || posts.length * 2}
                 </div>
-                <div className="text-muted-foreground font-medium">Активных пользователей</div>
+                <div className="text-muted-foreground font-medium">{t("totalUsers")}</div>
               </div>
               <div className="glass-card rounded-2xl p-6 hover:shadow-lg transition-all duration-300">
                 <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">24</div>
-                <div className="text-muted-foreground font-medium">Районов</div>
+                <div className="text-muted-foreground font-medium">{t("districts")}</div>
               </div>
             </div>
           </div>
