@@ -198,6 +198,7 @@ export const translations = {
     // Common
     welcomeMessage: "Qosh kelipsiz",
     createPost: "Murajaat jaratıw",
+    createComplaint: "Shikayat jaratıw",
     title: "Ataw",
     description: "Sıpatlama",
     category: "Kategoriya",
@@ -209,6 +210,22 @@ export const translations = {
     loading: "Júkleniw...",
     error: "Qátelik",
     success: "Jetiskerlik",
+    
+    // Additional keys
+    admin: "Admin",
+    government: "Hákimiyat",
+    citizen: "Halıq",
+    adminDashboard: "Administrator paneli",
+    governmentDashboard: "Hákimiyat paneli",
+    totalPosts: "Barlıq murajaatlar",
+    totalUsers: "Barlıq paydalanıwshılar",
+    platformDescription: "Shikayat hám tashabuslarıń basqarıwı",
+    notifications: "Bildiriwler",
+    markAllRead: "Hámmesin oqılǵan dep belgilew",
+    noNotifications: "Bildiriwler joq",
+    errorOccurred: "Qátelik júz berdi",
+    tryAgain: "Qayta sınap kóriń",
+    noDataFound: "Málumatlár tabılmadı",
     
     // Categories
     roads: "Jollar",
