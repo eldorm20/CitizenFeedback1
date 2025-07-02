@@ -12,6 +12,18 @@ export const translations = {
     login: "Login",
     register: "Register",
     
+    // Dashboard
+    welcomeMessage: "Welcome",
+    platformDescription: "Manage your civic complaints and initiatives with our comprehensive platform",
+    createPost: "Create Post",
+    adminDashboard: "Admin Dashboard",
+    governmentDashboard: "Government Dashboard",
+    totalPosts: "Total Posts",
+    totalUsers: "Total Users",
+    resolvedPosts: "Resolved Posts",
+    newPosts: "New Posts",
+    inProgressPosts: "In Progress Posts",
+    
     // Auth
     username: "Username",
     email: "Email",
@@ -30,14 +42,20 @@ export const translations = {
     alreadyHaveAccount: "Already have an account?",
     dontHaveAccount: "Don't have an account?",
     
-    // Complaints
+    // Posts & Complaints
     createComplaint: "Create Complaint",
+    createInitiative: "Create Initiative",
     title: "Title",
     description: "Description",
     category: "Category",
     content: "Content",
     submit: "Submit",
     cancel: "Cancel",
+    status: "Status",
+    new: "New",
+    inProgress: "In Progress",
+    resolved: "Resolved",
+    rejected: "Rejected",
     
     // Categories
     roads: "Roads",
@@ -47,62 +65,26 @@ export const translations = {
     healthcare: "Healthcare",
     education: "Education",
     environment: "Environment",
+    parks: "Parks",
+    safety: "Safety",
     
-    // Status
-    new: "New",
-    inProgress: "In Progress",
-    resolved: "Resolved",
-    rejected: "Rejected",
-    
-    // Chatbot
-    chatbotWelcome: "Hello! I'm your Muloqot Plus virtual assistant. How can I help you?",
-    askQuestion: "Ask a question...",
-    
-    // Common
+    // Messages
+    errorOccurred: "An error occurred",
+    tryAgain: "Try Again",
+    noDataFound: "No data found",
     loading: "Loading...",
-    error: "Error",
     success: "Success",
-    save: "Save",
-    delete: "Delete",
-    edit: "Edit",
-    view: "View",
+    
+    // Other
     search: "Search",
     filter: "Filter",
     all: "All",
+    clear: "Clear",
     
     // Notifications
     notifications: "Notifications",
     markAllRead: "Mark all as read",
-    noNotifications: "No notifications",
-    postCreated: "Complaint created successfully",
-    postUpdated: "Status updated successfully",
-    loginSuccess: "Login successful",
-    registrationSuccess: "Registration successful",
-    
-    // Government Dashboard
-    governmentDashboard: "Government Dashboard",
-    totalComplaints: "Total Complaints",
-    pendingComplaints: "Pending Complaints",
-    resolvedComplaints: "Resolved Complaints",
-    
-    // Admin Dashboard
-    adminDashboard: "Admin Dashboard",
-    userManagement: "User Management",
-    systemStats: "System Statistics",
-    totalUsers: "Total Users",
-    totalPosts: "Total Posts",
-    
-    // Additional keys
-    parks: "Parks",
-    safety: "Safety",
-    create: "Create",
-    createPost: "Create Post",
-    newComplaint: "New Complaint",
-    welcomeMessage: "Welcome to Muloqot Plus",
-    platformDescription: "Your voice matters in building a better community",
-    noDataFound: "No data found",
-    errorOccurred: "An error occurred",
-    tryAgain: "Try again",
+    noNotifications: "No notifications"
   },
   
   ru: {
@@ -118,99 +100,81 @@ export const translations = {
     login: "Войти",
     register: "Регистрация",
     
+    // Dashboard
+    welcomeMessage: "Добро пожаловать",
+    platformDescription: "Управляйте своими жалобами и инициативами с помощью нашей комплексной платформы",
+    createPost: "Создать обращение",
+    adminDashboard: "Панель администратора",
+    governmentDashboard: "Правительственная панель",
+    totalPosts: "Всего обращений",
+    totalUsers: "Всего пользователей",
+    resolvedPosts: "Решено",
+    newPosts: "Новые",
+    inProgressPosts: "В работе",
+    
     // Auth
     username: "Имя пользователя",
-    email: "Email",
+    email: "Электронная почта",
     password: "Пароль",
     firstName: "Имя",
     lastName: "Фамилия",
     role: "Роль",
     citizen: "Гражданин",
-    government: "Госслужащий",
+    government: "Государственный служащий",
     admin: "Администратор",
     department: "Отдел",
-    governmentId: "Госномер",
+    governmentId: "Служебный ID",
     district: "Район",
     loginAccount: "Войти в аккаунт",
     createAccount: "Создать аккаунт",
     alreadyHaveAccount: "Уже есть аккаунт?",
     dontHaveAccount: "Нет аккаунта?",
     
-    // Complaints
+    // Posts & Complaints
     createComplaint: "Создать жалобу",
+    createInitiative: "Создать инициативу",
     title: "Заголовок",
     description: "Описание",
     category: "Категория",
     content: "Содержание",
     submit: "Отправить",
     cancel: "Отмена",
+    status: "Статус",
+    new: "Новый",
+    inProgress: "В работе",
+    resolved: "Решено",
+    rejected: "Отклонено",
     
     // Categories
     roads: "Дороги",
     utilities: "Коммунальные услуги",
     transport: "Транспорт",
-    housing: "ЖКХ",
+    housing: "Жилье",
     healthcare: "Здравоохранение",
     education: "Образование",
     environment: "Экология",
+    parks: "Парки",
+    safety: "Безопасность",
     
-    // Status
-    new: "Новая",
-    inProgress: "В работе",
-    resolved: "Решена",
-    rejected: "Отклонена",
-    
-    // Chatbot
-    chatbotWelcome: "Привет! Я ваш виртуальный помощник Muloqot Plus. Чем могу помочь?",
-    askQuestion: "Задайте вопрос...",
-    
-    // Common
+    // Messages
+    errorOccurred: "Произошла ошибка",
+    tryAgain: "Попробовать снова",
+    noDataFound: "Данные не найдены",
     loading: "Загрузка...",
-    error: "Ошибка",
     success: "Успешно",
-    save: "Сохранить",
-    delete: "Удалить",
-    edit: "Редактировать",
-    view: "Просмотр",
+    
+    // Other
     search: "Поиск",
     filter: "Фильтр",
     all: "Все",
+    clear: "Очистить",
     
     // Notifications
     notifications: "Уведомления",
     markAllRead: "Отметить все как прочитанные",
-    noNotifications: "Нет уведомлений",
-    postCreated: "Жалоба успешно создана",
-    postUpdated: "Статус успешно обновлен",
-    loginSuccess: "Вход выполнен успешно",
-    registrationSuccess: "Регистрация прошла успешно",
-    
-    // Government Dashboard
-    governmentDashboard: "Панель госслужащего",
-    totalComplaints: "Всего жалоб",
-    pendingComplaints: "Ожидают решения",
-    resolvedComplaints: "Решены",
-    
-    // Admin Dashboard
-    adminDashboard: "Панель администратора",
-    userManagement: "Управление пользователями",
-    systemStats: "Системная статистика",
-    totalUsers: "Всего пользователей",
-    totalPosts: "Всего постов",
-    
-    // Additional keys
-    parks: "Парки",
-    safety: "Безопасность",
-    create: "Создать",
-    createPost: "Создать пост",
-    newComplaint: "Новая жалоба",
-    welcomeMessage: "Добро пожаловать в Muloqot Plus",
-    platformDescription: "Ваш голос важен для построения лучшего общества",
-    noDataFound: "Данные не найдены",
-    errorOccurred: "Произошла ошибка",
-    tryAgain: "Попробовать снова",
+    noNotifications: "Нет уведомлений"
   },
-  
+
   uz: {
     // Navigation
     home: "Bosh sahifa",
@@ -224,9 +188,21 @@ export const translations = {
     login: "Kirish",
     register: "Ro'yxatdan o'tish",
     
+    // Dashboard
+    welcomeMessage: "Xush kelibsiz",
+    platformDescription: "Shikoyat va tashabbuslaringizni keng qamrovli platformamiz orqali boshqaring",
+    createPost: "Murojaat yaratish",
+    adminDashboard: "Administrator paneli",
+    governmentDashboard: "Davlat paneli",
+    totalPosts: "Jami murojaatlar",
+    totalUsers: "Jami foydalanuvchilar",
+    resolvedPosts: "Hal qilingan",
+    newPosts: "Yangi",
+    inProgressPosts: "Jarayonda",
+    
     // Auth
     username: "Foydalanuvchi nomi",
-    email: "Email",
+    email: "Elektron pochta",
     password: "Parol",
     firstName: "Ism",
     lastName: "Familiya",
@@ -235,21 +211,27 @@ export const translations = {
     government: "Davlat xizmatchisi",
     admin: "Administrator",
     department: "Bo'lim",
-    governmentId: "Davlat raqami",
+    governmentId: "Xizmat ID",
     district: "Tuman",
-    loginAccount: "Akkauntga kirish",
-    createAccount: "Akkount yaratish",
-    alreadyHaveAccount: "Akkaunt mavjudmi?",
-    dontHaveAccount: "Akkaunt yo'qmi?",
+    loginAccount: "Hisobga kirish",
+    createAccount: "Hisob yaratish",
+    alreadyHaveAccount: "Hisobingiz bormi?",
+    dontHaveAccount: "Hisobingiz yo'qmi?",
     
-    // Complaints
+    // Posts & Complaints
     createComplaint: "Shikoyat yaratish",
+    createInitiative: "Tashabbus yaratish",
     title: "Sarlavha",
     description: "Tavsif",
     category: "Kategoriya",
     content: "Mazmun",
     submit: "Yuborish",
     cancel: "Bekor qilish",
+    status: "Holat",
+    new: "Yangi",
+    inProgress: "Jarayonda",
+    resolved: "Hal qilingan",
+    rejected: "Rad etilgan",
     
     // Categories
     roads: "Yo'llar",
@@ -259,64 +241,28 @@ export const translations = {
     healthcare: "Sog'liqni saqlash",
     education: "Ta'lim",
     environment: "Ekologiya",
+    parks: "Bog'lar",
+    safety: "Xavfsizlik",
     
-    // Status
-    new: "Yangi",
-    inProgress: "Ishlanmoqda",
-    resolved: "Hal qilingan",
-    rejected: "Rad etilgan",
-    
-    // Chatbot
-    chatbotWelcome: "Salom! Men sizning Muloqot Plus virtual yordamchingizman. Qanday yordam bera olaman?",
-    askQuestion: "Savol bering...",
-    
-    // Common
+    // Messages
+    errorOccurred: "Xatolik yuz berdi",
+    tryAgain: "Qayta urinib ko'ring",
+    noDataFound: "Ma'lumot topilmadi",
     loading: "Yuklanmoqda...",
-    error: "Xatolik",
-    success: "Muvaffaqiyat",
-    save: "Saqlash",
-    delete: "O'chirish",
-    edit: "Tahrirlash",
-    view: "Ko'rish",
+    success: "Muvaffaqiyatli",
+    
+    // Other
     search: "Qidirish",
     filter: "Filtr",
     all: "Hammasi",
+    clear: "Tozalash",
     
     // Notifications
     notifications: "Bildirishnomalar",
-    markAllRead: "Barchasini o'qilgan deb belgilash",
-    noNotifications: "Bildirishnomalar yo'q",
-    postCreated: "Shikoyat muvaffaqiyatli yaratildi",
-    postUpdated: "Status muvaffaqiyatli yangilandi",
-    loginSuccess: "Kirish muvaffaqiyatli amalga oshirildi",
-    registrationSuccess: "Ro'yxatdan o'tish muvaffaqiyatli yakunlandi",
-    
-    // Government Dashboard
-    governmentDashboard: "Davlat xizmatchisi paneli",
-    totalComplaints: "Jami shikoyatlar",
-    pendingComplaints: "Kutilayotgan shikoyatlar",
-    resolvedComplaints: "Hal qilingan",
-    
-    // Admin Dashboard
-    adminDashboard: "Administrator paneli",
-    userManagement: "Foydalanuvchilarni boshqarish",
-    systemStats: "Tizim statistikasi",
-    totalUsers: "Jami foydalanuvchilar",
-    totalPosts: "Jami postlar",
-    
-    // Additional keys
-    parks: "Bog'lar",
-    safety: "Xavfsizlik",
-    create: "Yaratish",
-    createPost: "Post yaratish",
-    newComplaint: "Yangi shikoyat",
-    welcomeMessage: "Muloqot Plus ga xush kelibsiz",
-    platformDescription: "Sizning ovozingiz yaxshi jamiyat qurish uchun muhim",
-    noDataFound: "Ma'lumot topilmadi",
-    errorOccurred: "Xatolik yuz berdi",
-    tryAgain: "Qayta urinib ko'ring",
+    markAllRead: "Hammasini o'qilgan deb belgilash",
+    noNotifications: "Bildirishnomalar yo'q"
   }
 };
 
-export type Language = keyof typeof translations;
 export type TranslationKey = keyof typeof translations.en;
+export type Language = keyof typeof translations;
