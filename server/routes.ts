@@ -209,8 +209,13 @@ export function registerRoutes(app: Express): Server {
   });
 
   app.patch("/api/posts/:id/status", async (req, res) => {
-    if (!req.isAuthenticated() || !req.user?.isAdmin) {
-      return res.status(403).json({ error: "Admin access required" });
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+    
+    // Allow both admin and government users to update post status
+    if (req.user?.role !== "admin" && req.user?.role !== "government") {
+      return res.status(403).json({ error: "Admin or government access required" });
     }
 
     try {

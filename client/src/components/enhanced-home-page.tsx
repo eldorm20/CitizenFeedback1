@@ -9,7 +9,7 @@ import { LanguageSelector } from "@/components/language-selector";
 import { FilterSection } from "@/components/filter-section";
 import { PostCard } from "@/components/post-card";
 import { CreatePostModal } from "@/components/create-post-modal";
-import { ModernChatbot } from "@/components/modern-chatbot";
+import { EnhancedChatbot } from "@/components/enhanced-chatbot";
 import { AdminPanel } from "@/components/admin-panel";
 import { motion, AnimatePresence } from "framer-motion";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, BarChart, Bar, PieChart, Pie, Cell } from "recharts";
@@ -452,7 +452,7 @@ export default function EnhancedHomePage() {
         districts={districts}
       />
 
-      <ModernChatbot
+      <EnhancedChatbot
         open={isChatbotOpen}
         onOpenChange={setIsChatbotOpen}
       />
