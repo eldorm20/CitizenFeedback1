@@ -12,49 +12,27 @@ export const translations = {
     login: "Login",
     register: "Register",
     
-    // Common
-    welcomeMessage: "Welcome",
-    createPost: "Create Post",
-    createComplaint: "Create Complaint",
+    // Content
+    welcomeMessage: "Welcome to Muloqot Plus",
     title: "Title",
     description: "Description",
     category: "Category",
-    submit: "Submit",
-    cancel: "Cancel",
-    search: "Search",
+    new: "New",
+    notifications: "Notifications",
     filter: "Filter",
-    all: "All",
-    loading: "Loading...",
+    search: "Search",
     error: "Error",
-    success: "Success",
     
-    // Additional keys
-    admin: "Admin",
-    government: "Government",
-    citizen: "Citizen",
-    adminDashboard: "Admin Dashboard",
-    governmentDashboard: "Government Dashboard", 
+    // Stats
     totalPosts: "Total Posts",
     totalUsers: "Total Users",
-    platformDescription: "Manage your civic complaints and initiatives",
-    notifications: "Notifications",
-    markAllRead: "Mark all as read",
-    noNotifications: "No notifications",
-    errorOccurred: "An error occurred",
-    tryAgain: "Try again",
-    noDataFound: "No data found",
     
-    // Categories
-    roads: "Roads",
-    utilities: "Utilities",
-    transport: "Transport",
-    housing: "Housing",
-    environment: "Environment",
-    parks: "Parks",
-    safety: "Safety",
+    // User types
+    government: "Government",
+    admin: "Admin",
+    citizen: "Citizen",
     
     // Status
-    new: "New",
     inProgress: "In Progress",
     resolved: "Resolved",
     rejected: "Rejected",
@@ -67,7 +45,12 @@ export const translations = {
     selectDistrict: "Select District",
     allDistricts: "All Districts",
     newComplaints: "New",
-    popular: "Popular"
+    popular: "Popular",
+    yourVoice: "Your Voice",
+    matters: "Matters",
+    platformDescription: "A platform for citizens where every complaint finds a response, every initiative gets support, and every discussion leads to real changes in our society.",
+    startNow: "Start Now",
+    learnMore: "Learn More"
   },
   
   ru: {
@@ -79,53 +62,31 @@ export const translations = {
     settings: "Настройки",
     statistics: "Статистика",
     dashboard: "Панель",
-    logout: "Выйти",
-    login: "Войти",
+    logout: "Выход",
+    login: "Вход",
     register: "Регистрация",
     
-    // Common
-    welcomeMessage: "Добро пожаловать",
-    createPost: "Создать обращение",
-    createComplaint: "Создать жалобу",
+    // Content
+    welcomeMessage: "Добро пожаловать в Muloqot Plus",
     title: "Заголовок",
     description: "Описание",
     category: "Категория",
-    submit: "Отправить",
-    cancel: "Отмена",
-    search: "Поиск",
+    new: "Новые",
+    notifications: "Уведомления",
     filter: "Фильтр",
-    all: "Все",
-    loading: "Загрузка...",
+    search: "Поиск",
     error: "Ошибка",
-    success: "Успешно",
     
-    // Additional keys
-    admin: "Админ",
-    government: "Правительство",
-    citizen: "Гражданин",
-    adminDashboard: "Панель администратора",
-    governmentDashboard: "Правительственная панель",
+    // Stats
     totalPosts: "Всего обращений",
     totalUsers: "Всего пользователей",
-    platformDescription: "Управление жалобами и инициативами",
-    notifications: "Уведомления",
-    markAllRead: "Отметить все как прочитанные",
-    noNotifications: "Нет уведомлений",
-    errorOccurred: "Произошла ошибка",
-    tryAgain: "Попробовать снова",
-    noDataFound: "Данные не найдены",
     
-    // Categories
-    roads: "Дороги",
-    utilities: "Коммунальные услуги",
-    transport: "Транспорт",
-    housing: "Жилье",
-    environment: "Экология",
-    parks: "Парки",
-    safety: "Безопасность",
+    // User types
+    government: "Государственные",
+    admin: "Администратор",
+    citizen: "Гражданин",
     
     // Status
-    new: "Новый",
     inProgress: "В работе",
     resolved: "Решено",
     rejected: "Отклонено",
@@ -138,9 +99,14 @@ export const translations = {
     selectDistrict: "Выберите район",
     allDistricts: "Все районы",
     newComplaints: "Новые",
-    popular: "Популярные"
+    popular: "Популярные",
+    yourVoice: "Ваш голос",
+    matters: "имеет значение",
+    platformDescription: "Платформа для граждан, где каждая жалоба находит отклик, каждая инициатива получает поддержку, а каждое обсуждение ведет к реальным изменениям в нашем обществе.",
+    startNow: "Начать сейчас",
+    learnMore: "Узнать больше"
   },
-
+  
   uz: {
     // Navigation
     home: "Bosh sahifa",
@@ -149,54 +115,32 @@ export const translations = {
     profile: "Profil",
     settings: "Sozlamalar",
     statistics: "Statistika",
-    dashboard: "Panel",
+    dashboard: "Boshqaruv paneli",
     logout: "Chiqish",
     login: "Kirish",
-    register: "Ro'yxat",
+    register: "Ro'yxatdan o'tish",
     
-    // Common
-    welcomeMessage: "Xush kelibsiz",
-    createPost: "Murojaat yaratish",
-    createComplaint: "Shikoyat yaratish",
+    // Content
+    welcomeMessage: "Muloqot Plus ga xush kelibsiz",
     title: "Sarlavha",
     description: "Tavsif",
     category: "Kategoriya",
-    submit: "Yuborish",
-    cancel: "Bekor qilish",
-    search: "Qidirish",
+    new: "Yangi",
+    notifications: "Bildirishnomalar",
     filter: "Filtr",
-    all: "Hammasi",
-    loading: "Yuklanmoqda...",
-    error: "Xatolik",
-    success: "Muvaffaqiyat",
+    search: "Qidirish",
+    error: "Xato",
     
-    // Additional keys
-    admin: "Admin",
-    government: "Hukumat",
-    citizen: "Fuqaro",
-    adminDashboard: "Administrator paneli",
-    governmentDashboard: "Davlat paneli",
+    // Stats
     totalPosts: "Jami murojaatlar",
     totalUsers: "Jami foydalanuvchilar",
-    platformDescription: "Shikoyat va tashabbuslarni boshqarish",
-    notifications: "Bildirishnomalar",
-    markAllRead: "Hammasini o'qilgan deb belgilash",
-    noNotifications: "Bildirishnomalar yo'q",
-    errorOccurred: "Xatolik yuz berdi",
-    tryAgain: "Qayta urinib ko'ring",
-    noDataFound: "Ma'lumot topilmadi",
     
-    // Categories
-    roads: "Yo'llar",
-    utilities: "Kommunal xizmatlar",
-    transport: "Transport",
-    housing: "Uy-joy",
-    environment: "Ekologiya",
-    parks: "Bog'lar",
-    safety: "Xavfsizlik",
+    // User types
+    government: "Davlat",
+    admin: "Administrator",
+    citizen: "Fuqaro",
     
     // Status
-    new: "Yangi",
     inProgress: "Jarayonda",
     resolved: "Hal qilingan",
     rejected: "Rad etilgan",
@@ -209,65 +153,48 @@ export const translations = {
     selectDistrict: "Tumanni tanlang",
     allDistricts: "Barcha tumanlar",
     newComplaints: "Yangi",
-    popular: "Mashhur"
+    popular: "Mashhur",
+    yourVoice: "Sizning ovozingiz",
+    matters: "muhim",
+    platformDescription: "Har bir shikoyat javob topadigan, har bir tashabbus qo'llab-quvvatlanadigan va har bir muhokama jamiyatimizda haqiqiy o'zgarishlarga olib keladigan fuqarolar platformasi.",
+    startNow: "Hozir boshlash",
+    learnMore: "Batafsil"
   },
-
+  
   kaa: {
-    // Navigation (Karakalpak)
+    // Navigation
     home: "Bas bet",
-    complaints: "Shikayatlar",
-    initiatives: "Tashabuslar",
+    complaints: "Shıkayatlar",
+    initiatives: "Tashabbuslar",
     profile: "Profil",
-    settings: "Sazlaw",
+    settings: "Sozlaw",
     statistics: "Statistika",
-    dashboard: "Baqlaw paneli",
+    dashboard: "Basqarıw paneli",
     logout: "Shıǵıw",
     login: "Kiriw",
-    register: "Dizimge aliw",
+    register: "Dizimnen ótiw",
     
-    // Common
-    welcomeMessage: "Qosh kelipsiz",
-    createPost: "Murajaat jaratıw",
-    createComplaint: "Shikayat jaratıw",
-    title: "Ataw",
+    // Content
+    welcomeMessage: "Muloqot Plus qa qosh kelipsiźler",
+    title: "Sarlavha",
     description: "Sıpatlama",
     category: "Kategoriya",
-    submit: "Jiberiw",
-    cancel: "Biykar etiw",
+    new: "Jaña",
+    notifications: "Xabarlar",
+    filter: "Filtr",
     search: "Izlew",
-    filter: "Filtir",
-    all: "Hámme",
-    loading: "Júkleniw...",
     error: "Qátelik",
-    success: "Jetiskerlik",
     
-    // Additional keys
-    admin: "Admin",
-    government: "Hákimiyat",
-    citizen: "Halıq",
-    adminDashboard: "Administrator paneli",
-    governmentDashboard: "Hákimiyat paneli",
-    totalPosts: "Barlıq murajaatlar",
-    totalUsers: "Barlıq paydalanıwshılar",
-    platformDescription: "Shikayat hám tashabuslarıń basqarıwı",
-    notifications: "Bildiriwler",
-    markAllRead: "Hámmesin oqılǵan dep belgilew",
-    noNotifications: "Bildiriwler joq",
-    errorOccurred: "Qátelik júz berdi",
-    tryAgain: "Qayta sınap kóriń",
-    noDataFound: "Málumatlár tabılmadı",
+    // Stats
+    totalPosts: "Jámi murajáatlar",
+    totalUsers: "Jámi paydalanıwshılar",
     
-    // Categories
-    roads: "Jollar",
-    utilities: "Kommunal xızmetler",
-    transport: "Transport",
-    housing: "Turaq joy",
-    environment: "Ekologiya",
-    parks: "Baqlar",
-    safety: "Qáwipsizlik",
+    // User types
+    government: "Dawlat",
+    admin: "Administrator",
+    citizen: "Azamat",
     
     // Status
-    new: "Jańa",
     inProgress: "Islep atır",
     resolved: "Sheshildi",
     rejected: "Qabıl etilmedi",
@@ -280,65 +207,48 @@ export const translations = {
     selectDistrict: "Rayondi saylań",
     allDistricts: "Barlıq rayonlar",
     newComplaints: "Jaña",
-    popular: "Háp tanılgan"
+    popular: "Háp tanılgan",
+    yourVoice: "Sizdiń dawysingiz",
+    matters: "máńizli",
+    platformDescription: "Hár bir shıkayat juwap tapatugın, hár bir tashabbus qollap-quwatlanatugın hám hár bir talqılaw jamıyatımızda shın ózgeristerde aparatugın azamatlar platforması.",
+    startNow: "Házir baslash",
+    learnMore: "Kóbirek úyreniw"
   },
-
+  
   tg: {
-    // Navigation (Tajik)
-    home: "Асосӣ",
+    // Navigation
+    home: "Саҳифаи асосӣ",
     complaints: "Шикоятҳо",
     initiatives: "Ташаббусҳо",
     profile: "Профил",
     settings: "Танзимот",
     statistics: "Омор",
-    dashboard: "Лавҳа",
-    logout: "Баромад",
-    login: "Даромад",
-    register: "Сабти ном",
+    dashboard: "Лавҳаи идора",
+    logout: "Баромадан",
+    login: "Воридшавӣ",
+    register: "Бақайдгирӣ",
     
-    // Common
-    welcomeMessage: "Хуш омадед",
-    createPost: "Муроҷиат эҷод кардан",
-    createComplaint: "Шикоят эҷод кардан",
+    // Content
+    welcomeMessage: "Ба Muloqot Plus хуш омадед",
     title: "Сарлавҳа",
     description: "Тавсиф",
     category: "Категория",
-    submit: "Фиристодан",
-    cancel: "Бекор кардан",
-    search: "Ҷустуҷӯ",
-    filter: "Филтр",
-    all: "Ҳама",
-    loading: "Бор шуда истодааст...",
-    error: "Хатогӣ",
-    success: "Бомуваффақият",
-    
-    // Additional keys
-    admin: "Маъмур",
-    government: "Ҳукумат",
-    citizen: "Шаҳрванд",
-    adminDashboard: "Лавҳаи маъмур",
-    governmentDashboard: "Лавҳаи ҳукумат",
-    totalPosts: "Ҳамаи муроҷиатҳо",
-    totalUsers: "Ҳамаи корбарон",
-    platformDescription: "Идоракунии шикоятҳо ва ташаббусҳо",
+    new: "Нав",
     notifications: "Огоҳиҳо",
-    markAllRead: "Ҳамеро хондашуда қайд кардан",
-    noNotifications: "Огоҳиҳо нестанд",
-    errorOccurred: "Хатогӣ рух дод",
-    tryAgain: "Аз нав кӯшиш кунед",
-    noDataFound: "Маълумот ёфт нашуд",
+    filter: "Филтр",
+    search: "Ҷустуҷӯ",
+    error: "Хато",
     
-    // Categories
-    roads: "Роҳҳо",
-    utilities: "Хидматҳои коммуналӣ",
-    transport: "Транспорт",
-    housing: "Манзил",
-    environment: "Экология",
-    parks: "Боғҳо",
-    safety: "Бехатарӣ",
+    // Stats
+    totalPosts: "Ҳамаи мурожиатҳо",
+    totalUsers: "Ҳамаи корбарон",
+    
+    // User types
+    government: "Давлатӣ",
+    admin: "Маъмур",
+    citizen: "Шаҳрванд",
     
     // Status
-    new: "Нав",
     inProgress: "Дар ҷараён",
     resolved: "Ҳал шуда",
     rejected: "Рад шуда",
@@ -351,7 +261,12 @@ export const translations = {
     selectDistrict: "Ноҳияро интихоб кунед",
     allDistricts: "Ҳамаи ноҳияҳо",
     newComplaints: "Нав",
-    popular: "Маъмул"
+    popular: "Маъмул",
+    yourVoice: "Садои шумо",
+    matters: "муҳим аст",
+    platformDescription: "Платформаи шаҳрвандон, ки ҳар як шикоятро ҷавоб мепайвандад, ҳар як ташаббус дастгирӣ мешавад ва ҳар як баҳс ба тағйироти ҳақиқӣ дар ҷомеаи мо оварда мерасонад.",
+    startNow: "Ҳозир оғоз кунед",
+    learnMore: "Бештар донед"
   }
 };
 

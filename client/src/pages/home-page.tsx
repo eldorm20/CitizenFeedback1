@@ -140,7 +140,7 @@ export default function HomePage() {
                 onClick={() => logoutMutation.mutate()}
                 className="glass-input"
               >
-                Выход
+{t("logout")}
               </Button>
 
               <Button variant="ghost" size="icon" className="md:hidden glass-input">
@@ -157,14 +157,13 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
               <span className="bg-gradient-to-r from-blue-600 via-blue-700 to-emerald-600 dark:from-blue-400 dark:via-blue-500 dark:to-emerald-400 bg-clip-text text-transparent">
-                Ваш голос
+                {t("yourVoice")}
               </span>
               <br />
-              <span className="text-gray-800 dark:text-gray-200">имеет значение</span>
+              <span className="text-gray-800 dark:text-gray-200">{t("matters")}</span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Платформа для граждан, где каждая жалоба находит отклик, каждая инициатива получает поддержку, 
-              а каждое обсуждение ведет к реальным изменениям в нашем обществе.
+              {t("platformDescription")}
             </p>
             
             {/* CTA Buttons */}

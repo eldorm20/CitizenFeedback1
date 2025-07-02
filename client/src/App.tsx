@@ -9,6 +9,7 @@ import { LanguageProvider } from "@/hooks/use-language";
 import { NotificationProvider } from "@/hooks/use-notifications";
 import LandingPage from "@/pages/landing-page";
 import UserDashboard from "@/pages/user-dashboard";
+import EnhancedHomePage from "@/components/enhanced-home-page";
 import GovernmentDashboard from "@/pages/government-dashboard";
 import EnhancedGovernmentDashboard from "@/pages/enhanced-government-dashboard";
 import AdminDashboard from "@/pages/admin-dashboard";
@@ -36,7 +37,7 @@ function DashboardRouter() {
   } else if (user.role === "government") {
     return <GovernmentDashboard />;
   } else {
-    return <UserDashboard />;
+    return <EnhancedHomePage />;
   }
 }
 
