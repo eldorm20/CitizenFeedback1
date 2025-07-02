@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/hooks/use-auth";
+import { useLanguage } from "@/hooks/use-language";
 import { useQuery } from "@tanstack/react-query";
 import { PostCard } from "@/components/post-card";
 import { CreatePostModal } from "@/components/create-post-modal";
@@ -26,18 +27,20 @@ import {
   TrendingUp
 } from "lucide-react";
 
-const CATEGORIES = [
-  "Дороги", "ЖКХ", "Транспорт", "Экология", "Парки", "Безопасность"
-];
-
-const DISTRICTS = [
-  "Чиланзарский", "Юнусабадский", "Мирзо-Улугбекский", 
-  "Сергелийский", "Алмазарский", "Шайхантахурский"
-];
-
 export default function HomePage() {
   const { user, logoutMutation } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { t } = useLanguage();
+
+  const CATEGORIES = [
+    t("roads"), t("housing"), t("transport"), t("environment"), 
+    "Парки", t("utilities")
+  ];
+
+  const DISTRICTS = [
+    "Чиланзарский", "Юнусабадский", "Мирзо-Улугбекский", 
+    "Сергелийский", "Алмазарский", "Шайхантахурский"
+  ];
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
   const [filters, setFilters] = useState({

@@ -144,22 +144,24 @@ export class DatabaseStorage implements IStorage {
       );
     }
 
-    // Simple query without complex joins to fix SQL syntax errors
+    // Build query with proper condition handling
     let query = db
       .select({
         post: posts,
         author: users
       })
       .from(posts)
-      .innerJoin(users, eq(posts.authorId, users.id))
-      .orderBy(desc(posts.createdAt));
+      .innerJoin(users, eq(posts.authorId, users.id));
 
     // Apply conditions if any
     if (conditions.length > 0) {
       query = query.where(and(...conditions));
     }
 
-    const result = await query.limit(limit).offset(offset);
+    const result = await query
+      .orderBy(desc(posts.createdAt))
+      .limit(limit)
+      .offset(offset);
 
     return result.map(row => ({
       ...row.post,

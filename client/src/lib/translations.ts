@@ -90,6 +90,19 @@ export const translations = {
     userManagement: "User Management",
     systemStats: "System Statistics",
     totalUsers: "Total Users",
+    totalPosts: "Total Posts",
+    
+    // Additional keys
+    parks: "Parks",
+    safety: "Safety",
+    create: "Create",
+    createPost: "Create Post",
+    newComplaint: "New Complaint",
+    welcomeMessage: "Welcome to Muloqot Plus",
+    platformDescription: "Your voice matters in building a better community",
+    noDataFound: "No data found",
+    errorOccurred: "An error occurred",
+    tryAgain: "Try again",
   },
   
   ru: {
@@ -183,6 +196,19 @@ export const translations = {
     userManagement: "Управление пользователями",
     systemStats: "Системная статистика",
     totalUsers: "Всего пользователей",
+    totalPosts: "Всего постов",
+    
+    // Additional keys
+    parks: "Парки",
+    safety: "Безопасность",
+    create: "Создать",
+    createPost: "Создать пост",
+    newComplaint: "Новая жалоба",
+    welcomeMessage: "Добро пожаловать в Muloqot Plus",
+    platformDescription: "Ваш голос важен для построения лучшего общества",
+    noDataFound: "Данные не найдены",
+    errorOccurred: "Произошла ошибка",
+    tryAgain: "Попробовать снова",
   },
   
   uz: {
@@ -276,6 +302,19 @@ export const translations = {
     userManagement: "Foydalanuvchilarni boshqarish",
     systemStats: "Tizim statistikasi",
     totalUsers: "Jami foydalanuvchilar",
+    totalPosts: "Jami postlar",
+    
+    // Additional keys
+    parks: "Bog'lar",
+    safety: "Xavfsizlik",
+    create: "Yaratish",
+    createPost: "Post yaratish",
+    newComplaint: "Yangi shikoyat",
+    welcomeMessage: "Muloqot Plus ga xush kelibsiz",
+    platformDescription: "Sizning ovozingiz yaxshi jamiyat qurish uchun muhim",
+    noDataFound: "Ma'lumot topilmadi",
+    errorOccurred: "Xatolik yuz berdi",
+    tryAgain: "Qayta urinib ko'ring",
   }
 };
 

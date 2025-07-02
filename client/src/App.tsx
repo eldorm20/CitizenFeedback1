@@ -10,6 +10,7 @@ import { NotificationProvider } from "@/hooks/use-notifications";
 import LandingPage from "@/pages/landing-page";
 import UserDashboard from "@/pages/user-dashboard";
 import GovernmentDashboard from "@/pages/government-dashboard";
+import EnhancedGovernmentDashboard from "@/pages/enhanced-government-dashboard";
 import AdminDashboard from "@/pages/admin-dashboard";
 import AuthPage from "@/pages/auth-page";
 import ComplaintsPage from "@/pages/complaints-page";
@@ -49,6 +50,7 @@ function Router() {
         <Route path="/" component={LandingPage} />
         <Route path="/auth" component={AuthPage} />
         <ProtectedRoute path="/dashboard" component={DashboardRouter} />
+        <ProtectedRoute path="/government" component={EnhancedGovernmentDashboard} />
         <ProtectedRoute path="/complaints" component={ComplaintsPage} />
         <ProtectedRoute path="/initiatives" component={InitiativesPage} />
         <ProtectedRoute path="/statistics" component={StatisticsPage} />
