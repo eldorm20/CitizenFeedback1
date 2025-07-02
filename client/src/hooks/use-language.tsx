@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, ReactNode, useContext, useState, useEffect } from "react";
 import { translations, Language, TranslationKey } from "@/lib/translations";
 
 interface LanguageContextType {
@@ -11,16 +11,19 @@ const LanguageContext = createContext<LanguageContextType | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem("language");
-    return (saved as Language) || "ru";
+    // Get language from localStorage or default to English
+    const savedLanguage = localStorage.getItem('language') as Language;
+    return savedLanguage && savedLanguage in translations ? savedLanguage : 'en';
   });
 
+  // Save language to localStorage when it changes
   useEffect(() => {
-    localStorage.setItem("language", language);
+    localStorage.setItem('language', language);
   }, [language]);
 
+  // Translation function
   const t = (key: TranslationKey): string => {
-    return translations[language][key] || key;
+    return translations[language][key] || translations.en[key] || key;
   };
 
   return (

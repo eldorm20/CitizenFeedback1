@@ -12,79 +12,52 @@ export const translations = {
     login: "Login",
     register: "Register",
     
-    // Dashboard
+    // Common
     welcomeMessage: "Welcome",
-    platformDescription: "Manage your civic complaints and initiatives with our comprehensive platform",
     createPost: "Create Post",
-    adminDashboard: "Admin Dashboard",
-    governmentDashboard: "Government Dashboard",
-    totalPosts: "Total Posts",
-    totalUsers: "Total Users",
-    resolvedPosts: "Resolved Posts",
-    newPosts: "New Posts",
-    inProgressPosts: "In Progress Posts",
-    
-    // Auth
-    username: "Username",
-    email: "Email",
-    password: "Password",
-    firstName: "First Name",
-    lastName: "Last Name",
-    role: "Role",
-    citizen: "Citizen",
-    government: "Government Official",
-    admin: "Administrator",
-    department: "Department",
-    governmentId: "Government ID",
-    district: "District",
-    loginAccount: "Login to Account",
-    createAccount: "Create Account",
-    alreadyHaveAccount: "Already have an account?",
-    dontHaveAccount: "Don't have an account?",
-    
-    // Posts & Complaints
     createComplaint: "Create Complaint",
-    createInitiative: "Create Initiative",
     title: "Title",
     description: "Description",
     category: "Category",
-    content: "Content",
     submit: "Submit",
     cancel: "Cancel",
-    status: "Status",
-    new: "New",
-    inProgress: "In Progress",
-    resolved: "Resolved",
-    rejected: "Rejected",
+    search: "Search",
+    filter: "Filter",
+    all: "All",
+    loading: "Loading...",
+    error: "Error",
+    success: "Success",
+    
+    // Additional keys
+    admin: "Admin",
+    government: "Government",
+    citizen: "Citizen",
+    adminDashboard: "Admin Dashboard",
+    governmentDashboard: "Government Dashboard", 
+    totalPosts: "Total Posts",
+    totalUsers: "Total Users",
+    platformDescription: "Manage your civic complaints and initiatives",
+    notifications: "Notifications",
+    markAllRead: "Mark all as read",
+    noNotifications: "No notifications",
+    errorOccurred: "An error occurred",
+    tryAgain: "Try again",
+    noDataFound: "No data found",
     
     // Categories
     roads: "Roads",
     utilities: "Utilities",
     transport: "Transport",
     housing: "Housing",
-    healthcare: "Healthcare",
-    education: "Education",
     environment: "Environment",
     parks: "Parks",
     safety: "Safety",
     
-    // Messages
-    errorOccurred: "An error occurred",
-    tryAgain: "Try Again",
-    noDataFound: "No data found",
-    loading: "Loading...",
-    success: "Success",
-    
-    // Other
-    search: "Search",
-    filter: "Filter",
-    all: "All",
-    clear: "Clear",
-    
-    // Notifications
-    notifications: "Notifications",
-    markAllRead: "Mark all as read",
-    noNotifications: "No notifications"
+    // Status
+    new: "New",
+    inProgress: "In Progress",
+    resolved: "Resolved",
+    rejected: "Rejected"
   },
   
   ru: {
@@ -95,84 +68,57 @@ export const translations = {
     profile: "Профиль",
     settings: "Настройки",
     statistics: "Статистика",
-    dashboard: "Панель управления",
+    dashboard: "Панель",
     logout: "Выйти",
     login: "Войти",
     register: "Регистрация",
     
-    // Dashboard
+    // Common
     welcomeMessage: "Добро пожаловать",
-    platformDescription: "Управляйте своими жалобами и инициативами с помощью нашей комплексной платформы",
     createPost: "Создать обращение",
+    createComplaint: "Создать жалобу",
+    title: "Заголовок",
+    description: "Описание",
+    category: "Категория",
+    submit: "Отправить",
+    cancel: "Отмена",
+    search: "Поиск",
+    filter: "Фильтр",
+    all: "Все",
+    loading: "Загрузка...",
+    error: "Ошибка",
+    success: "Успешно",
+    
+    // Additional keys
+    admin: "Админ",
+    government: "Правительство",
+    citizen: "Гражданин",
     adminDashboard: "Панель администратора",
     governmentDashboard: "Правительственная панель",
     totalPosts: "Всего обращений",
     totalUsers: "Всего пользователей",
-    resolvedPosts: "Решено",
-    newPosts: "Новые",
-    inProgressPosts: "В работе",
-    
-    // Auth
-    username: "Имя пользователя",
-    email: "Электронная почта",
-    password: "Пароль",
-    firstName: "Имя",
-    lastName: "Фамилия",
-    role: "Роль",
-    citizen: "Гражданин",
-    government: "Государственный служащий",
-    admin: "Администратор",
-    department: "Отдел",
-    governmentId: "Служебный ID",
-    district: "Район",
-    loginAccount: "Войти в аккаунт",
-    createAccount: "Создать аккаунт",
-    alreadyHaveAccount: "Уже есть аккаунт?",
-    dontHaveAccount: "Нет аккаунта?",
-    
-    // Posts & Complaints
-    createComplaint: "Создать жалобу",
-    createInitiative: "Создать инициативу",
-    title: "Заголовок",
-    description: "Описание",
-    category: "Категория",
-    content: "Содержание",
-    submit: "Отправить",
-    cancel: "Отмена",
-    status: "Статус",
-    new: "Новый",
-    inProgress: "В работе",
-    resolved: "Решено",
-    rejected: "Отклонено",
+    platformDescription: "Управление жалобами и инициативами",
+    notifications: "Уведомления",
+    markAllRead: "Отметить все как прочитанные",
+    noNotifications: "Нет уведомлений",
+    errorOccurred: "Произошла ошибка",
+    tryAgain: "Попробовать снова",
+    noDataFound: "Данные не найдены",
     
     // Categories
     roads: "Дороги",
     utilities: "Коммунальные услуги",
     transport: "Транспорт",
     housing: "Жилье",
-    healthcare: "Здравоохранение",
-    education: "Образование",
     environment: "Экология",
     parks: "Парки",
     safety: "Безопасность",
     
-    // Messages
-    errorOccurred: "Произошла ошибка",
-    tryAgain: "Попробовать снова",
-    noDataFound: "Данные не найдены",
-    loading: "Загрузка...",
-    success: "Успешно",
-    
-    // Other
-    search: "Поиск",
-    filter: "Фильтр",
-    all: "Все",
-    clear: "Очистить",
-    
-    // Notifications
-    notifications: "Уведомления",
-    markAllRead: "Отметить все как прочитанные",
-    noNotifications: "Нет уведомлений"
+    // Status
+    new: "Новый",
+    inProgress: "В работе",
+    resolved: "Решено",
+    rejected: "Отклонено"
   },
 
   uz: {
@@ -183,86 +129,147 @@ export const translations = {
     profile: "Profil",
     settings: "Sozlamalar",
     statistics: "Statistika",
-    dashboard: "Boshqaruv paneli",
+    dashboard: "Panel",
     logout: "Chiqish",
     login: "Kirish",
-    register: "Ro'yxatdan o'tish",
+    register: "Ro'yxat",
     
-    // Dashboard
+    // Common
     welcomeMessage: "Xush kelibsiz",
-    platformDescription: "Shikoyat va tashabbuslaringizni keng qamrovli platformamiz orqali boshqaring",
     createPost: "Murojaat yaratish",
+    createComplaint: "Shikoyat yaratish",
+    title: "Sarlavha",
+    description: "Tavsif",
+    category: "Kategoriya",
+    submit: "Yuborish",
+    cancel: "Bekor qilish",
+    search: "Qidirish",
+    filter: "Filtr",
+    all: "Hammasi",
+    loading: "Yuklanmoqda...",
+    error: "Xatolik",
+    success: "Muvaffaqiyat",
+    
+    // Additional keys
+    admin: "Admin",
+    government: "Hukumat",
+    citizen: "Fuqaro",
     adminDashboard: "Administrator paneli",
     governmentDashboard: "Davlat paneli",
     totalPosts: "Jami murojaatlar",
     totalUsers: "Jami foydalanuvchilar",
-    resolvedPosts: "Hal qilingan",
-    newPosts: "Yangi",
-    inProgressPosts: "Jarayonda",
-    
-    // Auth
-    username: "Foydalanuvchi nomi",
-    email: "Elektron pochta",
-    password: "Parol",
-    firstName: "Ism",
-    lastName: "Familiya",
-    role: "Rol",
-    citizen: "Fuqaro",
-    government: "Davlat xizmatchisi",
-    admin: "Administrator",
-    department: "Bo'lim",
-    governmentId: "Xizmat ID",
-    district: "Tuman",
-    loginAccount: "Hisobga kirish",
-    createAccount: "Hisob yaratish",
-    alreadyHaveAccount: "Hisobingiz bormi?",
-    dontHaveAccount: "Hisobingiz yo'qmi?",
-    
-    // Posts & Complaints
-    createComplaint: "Shikoyat yaratish",
-    createInitiative: "Tashabbus yaratish",
-    title: "Sarlavha",
-    description: "Tavsif",
-    category: "Kategoriya",
-    content: "Mazmun",
-    submit: "Yuborish",
-    cancel: "Bekor qilish",
-    status: "Holat",
-    new: "Yangi",
-    inProgress: "Jarayonda",
-    resolved: "Hal qilingan",
-    rejected: "Rad etilgan",
+    platformDescription: "Shikoyat va tashabbuslarni boshqarish",
+    notifications: "Bildirishnomalar",
+    markAllRead: "Hammasini o'qilgan deb belgilash",
+    noNotifications: "Bildirishnomalar yo'q",
+    errorOccurred: "Xatolik yuz berdi",
+    tryAgain: "Qayta urinib ko'ring",
+    noDataFound: "Ma'lumot topilmadi",
     
     // Categories
     roads: "Yo'llar",
     utilities: "Kommunal xizmatlar",
     transport: "Transport",
     housing: "Uy-joy",
-    healthcare: "Sog'liqni saqlash",
-    education: "Ta'lim",
     environment: "Ekologiya",
     parks: "Bog'lar",
     safety: "Xavfsizlik",
     
-    // Messages
-    errorOccurred: "Xatolik yuz berdi",
-    tryAgain: "Qayta urinib ko'ring",
-    noDataFound: "Ma'lumot topilmadi",
-    loading: "Yuklanmoqda...",
-    success: "Muvaffaqiyatli",
+    // Status
+    new: "Yangi",
+    inProgress: "Jarayonda",
+    resolved: "Hal qilingan",
+    rejected: "Rad etilgan"
+  },
+
+  kaa: {
+    // Navigation (Karakalpak)
+    home: "Bas bet",
+    complaints: "Shikayatlar",
+    initiatives: "Tashabuslar",
+    profile: "Profil",
+    settings: "Sazlaw",
+    statistics: "Statistika",
+    dashboard: "Baqlaw paneli",
+    logout: "Shıǵıw",
+    login: "Kiriw",
+    register: "Dizimge aliw",
     
-    // Other
-    search: "Qidirish",
-    filter: "Filtr",
-    all: "Hammasi",
-    clear: "Tozalash",
+    // Common
+    welcomeMessage: "Qosh kelipsiz",
+    createPost: "Murajaat jaratıw",
+    title: "Ataw",
+    description: "Sıpatlama",
+    category: "Kategoriya",
+    submit: "Jiberiw",
+    cancel: "Biykar etiw",
+    search: "Izlew",
+    filter: "Filtir",
+    all: "Hámme",
+    loading: "Júkleniw...",
+    error: "Qátelik",
+    success: "Jetiskerlik",
     
-    // Notifications
-    notifications: "Bildirishnomalar",
-    markAllRead: "Hammasini o'qilgan deb belgilash",
-    noNotifications: "Bildirishnomalar yo'q"
+    // Categories
+    roads: "Jollar",
+    utilities: "Kommunal xızmetler",
+    transport: "Transport",
+    housing: "Turaq joy",
+    environment: "Ekologiya",
+    parks: "Baqlar",
+    safety: "Qáwipsizlik",
+    
+    // Status
+    new: "Jańa",
+    inProgress: "Islep atır",
+    resolved: "Sheshildi",
+    rejected: "Qabıl etilmedi"
+  },
+
+  tg: {
+    // Navigation (Tajik)
+    home: "Асосӣ",
+    complaints: "Шикоятҳо",
+    initiatives: "Ташаббусҳо",
+    profile: "Профил",
+    settings: "Танзимот",
+    statistics: "Омор",
+    dashboard: "Лавҳа",
+    logout: "Баромад",
+    login: "Даромад",
+    register: "Сабти ном",
+    
+    // Common
+    welcomeMessage: "Хуш омадед",
+    createPost: "Муроҷиат эҷод кардан",
+    title: "Сарлавҳа",
+    description: "Тавсиф",
+    category: "Категория",
+    submit: "Фиристодан",
+    cancel: "Бекор кардан",
+    search: "Ҷустуҷӯ",
+    filter: "Филтр",
+    all: "Ҳама",
+    loading: "Бор шуда истодааст...",
+    error: "Хатогӣ",
+    success: "Бомуваффақият",
+    
+    // Categories
+    roads: "Роҳҳо",
+    utilities: "Хидматҳои коммуналӣ",
+    transport: "Транспорт",
+    housing: "Манзил",
+    environment: "Экология",
+    parks: "Боғҳо",
+    safety: "Бехатарӣ",
+    
+    // Status
+    new: "Нав",
+    inProgress: "Дар ҷараён",
+    resolved: "Ҳал шуда",
+    rejected: "Рад шуда"
   }
 };
 
-export type TranslationKey = keyof typeof translations.en;
 export type Language = keyof typeof translations;
+export type TranslationKey = keyof typeof translations.en;
