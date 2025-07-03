@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, X, Bot, User, Lightbulb, FileText, MapPin, Sparkles, Search, Phone, Clock, Shield } from "lucide-react";
+import { MessageCircle, Send, X, Bot, User, Lightbulb, FileText, MapPin, Sparkles, Search, Phone, Clock, Shield, AlertTriangle, Scale } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Message {
   id: string;
