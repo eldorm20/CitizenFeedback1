@@ -14,8 +14,8 @@ import { z } from "zod";
 import { MessageSquare, Users, TrendingUp, CheckCircle } from "lucide-react";
 
 const loginSchema = z.object({
-  username: z.string().min(1, "Имя пользователя обязательно"),
-  password: z.string().min(1, "Пароль обязателен"),
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
 });
 
 const registerSchema = insertUserSchema.extend({
@@ -23,8 +23,11 @@ const registerSchema = insertUserSchema.extend({
   department: z.string().optional(),
   governmentId: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Пароли не совпадают",
+  message: "Passwords do not match",
   path: ["confirmPassword"],
+}).refine((data) => data.password.length >= 8, {
+  message: "Password must be at least 8 characters",
+  path: ["password"],
 }).refine((data) => {
   if (data.role === "government" && !data.governmentId) {
     return false;
@@ -34,7 +37,7 @@ const registerSchema = insertUserSchema.extend({
   }
   return true;
 }, {
-  message: "Требуется служебный ID для регистрации как представитель власти или администратор",
+  message: "Government ID is required for government and admin roles",
   path: ["governmentId"],
 });
 
@@ -63,7 +66,7 @@ export default function AuthPage() {
       confirmPassword: "",
       firstName: "",
       lastName: "",
-      role: "citizen",
+      role: "user",
     },
   });
 
@@ -255,14 +258,14 @@ export default function AuthPage() {
                     <div className="space-y-2">
                       <Label htmlFor="register-role">Тип пользователя</Label>
                       <Select 
-                        defaultValue="citizen" 
-                        onValueChange={(value) => registerForm.setValue("role", value)}
+                        defaultValue="user" 
+                        onValueChange={(value) => registerForm.setValue("role", value as "user" | "government" | "admin")}
                       >
                         <SelectTrigger className="glass-input">
                           <SelectValue placeholder="Выберите тип пользователя" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="citizen">Гражданин</SelectItem>
+                          <SelectItem value="user">Гражданин</SelectItem>
                           <SelectItem value="government">Представитель власти</SelectItem>
                           <SelectItem value="admin">Администратор</SelectItem>
                         </SelectContent>

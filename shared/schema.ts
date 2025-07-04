@@ -180,6 +180,15 @@ export const insertUserSchema = createInsertSchema(users).pick({
   firstName: true,
   lastName: true,
   role: true,
+  district: true,
+  department: true,
+}).extend({
+  username: z.string().min(3, "Username must be at least 3 characters").max(20, "Username must not exceed 20 characters"),
+  email: z.string().email("Invalid email format"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  role: z.enum(["user", "government", "admin"]).default("user"),
 });
 
 export const insertPostSchema = createInsertSchema(posts).omit({
@@ -187,10 +196,16 @@ export const insertPostSchema = createInsertSchema(posts).omit({
   authorId: true,
   likes: true,
   views: true,
+  votes: true,
   createdAt: true,
   updatedAt: true,
 }).extend({
-  description: z.string().min(1, "Описание обязательно"),
+  title: z.string().min(1, "Title is required").max(200, "Title must not exceed 200 characters"),
+  description: z.string().min(1, "Description is required"),
+  content: z.string().min(1, "Content is required"),
+  category: z.string().min(1, "Category is required"),
+  district: z.string().min(1, "District is required"),
+  type: z.enum(["complaint", "initiative"]).default("complaint"),
 });
 
 export const insertCommentSchema = createInsertSchema(comments).omit({

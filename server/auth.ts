@@ -6,6 +6,8 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User as SelectUser } from "@shared/schema";
+import rateLimit from "express-rate-limit";
+import { body, validationResult } from "express-validator";
 
 declare global {
   namespace Express {
@@ -27,6 +29,30 @@ async function comparePasswords(supplied: string, stored: string) {
   const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
+
+// Rate limiting for authentication endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // limit each IP to 5 authentication attempts per windowMs
+  message: { error: "Too many authentication attempts, please try again later" },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Input validation middleware
+const validateRegister = [
+  body('username').isLength({ min: 3, max: 20 }).isAlphanumeric().trim(),
+  body('email').isEmail().normalizeEmail(),
+  body('password').isLength({ min: 8 }),
+  body('firstName').isLength({ min: 1 }).trim(),
+  body('lastName').isLength({ min: 1 }).trim(),
+  body('role').isIn(['user', 'government', 'admin']).optional(),
+];
+
+const validateLogin = [
+  body('username').isLength({ min: 3, max: 20 }).trim(),
+  body('password').isLength({ min: 1 }),
+];
 
 export function setupAuth(app: Express) {
   const sessionSettings: session.SessionOptions = {
@@ -70,31 +96,69 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/register", async (req, res, next) => {
+  app.post("/api/register", authLimiter, validateRegister, async (req: any, res: any, next: any) => {
     try {
-      const existingUser = await storage.getUserByUsername(req.body.username);
+      // Check validation results
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+      }
+
+      // Input validation
+      const { username, email, password, firstName, lastName, role } = req.body;
+      
+      if (!username || !email || !password || !firstName || !lastName) {
+        return res.status(400).json({ error: "All fields are required" });
+      }
+
+      // Username validation
+      if (username.length < 3 || username.length > 20) {
+        return res.status(400).json({ error: "Username must be 3-20 characters" });
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: "Invalid email format" });
+      }
+
+      // Password validation
+      if (password.length < 8) {
+        return res.status(400).json({ error: "Password must be at least 8 characters" });
+      }
+
+      const existingUser = await storage.getUserByUsername(username);
       if (existingUser) {
         return res.status(400).json({ error: "Username already exists" });
       }
 
-      const existingEmail = await storage.getUserByEmail(req.body.email);
+      const existingEmail = await storage.getUserByEmail(email);
       if (existingEmail) {
         return res.status(400).json({ error: "Email already exists" });
       }
 
-      // Prevent users from self-assigning admin role
+      // Sanitize and validate role
+      const allowedRoles = ["user", "government"];
+      const userRole = allowedRoles.includes(role) ? role : "user";
+
       const userData = {
-        ...req.body,
-        role: ["user", "government"].includes(req.body.role) ? req.body.role : "user",
-        password: await hashPassword(req.body.password),
-        isAdmin: false, // Admin users must be created by existing admins
+        username: username.toLowerCase().trim(),
+        email: email.toLowerCase().trim(),
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
+        password: await hashPassword(password),
+        role: userRole,
+        isAdmin: false,
       };
 
       const user = await storage.createUser(userData);
 
+      // Don't send password hash in response
+      const userResponse = { ...user, password: undefined };
+
       req.login(user, (err) => {
         if (err) return next(err);
-        res.status(201).json(user);
+        res.status(201).json(userResponse);
       });
     } catch (error) {
       console.error("Registration error:", error);
@@ -102,7 +166,16 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/login", (req, res, next) => {
+  app.post("/api/login", authLimiter, validateLogin, (req, res, next) => {
+    // Check validation results
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    // Input validation
+    const { username, password } = req.body;
+
     passport.authenticate("local", (err: any, user: any, info: any) => {
       if (err) {
         console.error("Login error:", err);
@@ -116,7 +189,9 @@ export function setupAuth(app: Express) {
           console.error("Session login error:", err);
           return res.status(500).json({ error: "Session creation failed" });
         }
-        res.status(200).json(user);
+        // Don't send password hash in response
+        const userResponse = { ...user, password: undefined };
+        res.status(200).json(userResponse);
       });
     })(req, res, next);
   });

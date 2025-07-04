@@ -7,6 +7,8 @@ import { insertPostSchema, insertCommentSchema } from "@shared/schema";
 import { z } from "zod";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+import sanitizeHtml from "sanitize-html";
+import { body, validationResult } from "express-validator";
 import { routeComplaintToAgency, updateAgencyLoad, generateInternalId, getAllAgencies, getTopPerformingAgencies } from "./government-routing";
 
 // Configure Cloudinary
@@ -18,8 +20,58 @@ cloudinary.config({
 
 const upload = multer({ 
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+  limits: { 
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+    files: 5 // Maximum 5 files
+  },
+  fileFilter: (req, file, cb) => {
+    // Only allow images and videos
+    const allowedMimes = [
+      'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
+      'video/mp4', 'video/mpeg', 'video/quicktime'
+    ];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only images and videos are allowed.'));
+    }
+  }
 });
+
+// Input sanitization function
+function sanitizeInput(input: string): string {
+  return sanitizeHtml(input, {
+    allowedTags: [], // No HTML tags allowed
+    allowedAttributes: {},
+  }).trim();
+}
+
+// Authorization middleware
+function requireAuth(req: any, res: any, next: any) {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ error: 'Authentication required' });
+  }
+  next();
+}
+
+function requireRole(roles: string[]) {
+  return (req: any, res: any, next: any) => {
+    if (!req.isAuthenticated() || !roles.includes(req.user.role)) {
+      return res.status(403).json({ error: 'Insufficient permissions' });
+    }
+    next();
+  };
+}
+
+// Post validation middleware
+const validatePost = [
+  body('title').isLength({ min: 1, max: 200 }).trim(),
+  body('description').isLength({ min: 1, max: 1000 }).trim(),
+  body('content').isLength({ min: 1, max: 5000 }).trim(),
+  body('category').isLength({ min: 1 }).trim(),
+  body('district').isLength({ min: 1 }).trim(),
+  body('type').isIn(['complaint', 'initiative']).optional(),
+];
 
 // Helper function to upload image to Cloudinary
 async function uploadToCloudinary(buffer: Buffer, originalname: string): Promise<string> {
@@ -93,14 +145,25 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  app.post("/api/posts", upload.single("image"), async (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: "Authentication required" });
-    }
-
+  app.post("/api/posts", requireAuth, upload.single("image"), validatePost, async (req: any, res: any) => {
     try {
-      // Validate the request body
-      const postData = insertPostSchema.parse(req.body);
+      // Check validation results
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+      }
+
+      // Sanitize and validate the request body
+      const sanitizedData = {
+        ...req.body,
+        title: sanitizeInput(req.body.title),
+        description: sanitizeInput(req.body.description),
+        content: sanitizeInput(req.body.content),
+        category: sanitizeInput(req.body.category),
+        district: sanitizeInput(req.body.district),
+      };
+
+      const postData = insertPostSchema.parse(sanitizedData);
       
       let imageUrl = null;
       if (req.file) {
@@ -208,15 +271,7 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  app.patch("/api/posts/:id/status", async (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: "Authentication required" });
-    }
-    
-    // Allow both admin and government users to update post status
-    if (req.user?.role !== "admin" && req.user?.role !== "government") {
-      return res.status(403).json({ error: "Admin or government access required" });
-    }
+  app.patch("/api/posts/:id/status", requireRole(["admin", "government"]), async (req: any, res: any) => {
 
     try {
       const postId = parseInt(req.params.id);
@@ -452,10 +507,7 @@ export function registerRoutes(app: Express): Server {
   });
 
   // Admin routes for user management
-  app.get("/api/admin/users", async (req, res) => {
-    if (!req.isAuthenticated() || req.user?.role !== "admin") {
-      return res.status(403).json({ error: "Admin access required" });
-    }
+  app.get("/api/admin/users", requireRole(["admin"]), async (req: any, res: any) => {
 
     try {
       const users = await storage.getAllUsers();
@@ -466,10 +518,7 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  app.patch("/api/admin/users/:id/role", async (req, res) => {
-    if (!req.isAuthenticated() || req.user?.role !== "admin") {
-      return res.status(403).json({ error: "Admin access required" });
-    }
+  app.patch("/api/admin/users/:id/role", requireRole(["admin"]), async (req: any, res: any) => {
 
     try {
       const userId = parseInt(req.params.id);
