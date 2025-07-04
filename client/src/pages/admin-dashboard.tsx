@@ -151,7 +151,7 @@ export default function AdminDashboard() {
             <CardContent>
               <div className="text-2xl font-bold gradient-text">{statusStats.total}</div>
               <p className="text-xs text-muted-foreground">
-                +{posts.filter(p => new Date(p.createdAt) > new Date(Date.now() - 7*24*60*60*1000)).length} за неделю
+                +{posts.filter(p => p.createdAt && new Date(p.createdAt) > new Date(Date.now() - 7*24*60*60*1000)).length} за неделю
               </p>
             </CardContent>
           </Card>

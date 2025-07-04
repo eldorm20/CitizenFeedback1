@@ -82,7 +82,7 @@ export function PostCard({ post }: PostCardProps) {
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
             <Avatar className="w-10 h-10">
-              <AvatarImage src={post.author.avatar} />
+              <AvatarImage src={post.author.avatar || undefined} />
               <AvatarFallback className="gradient-primary text-white text-sm">
                 {post.author.firstName?.[0]}{post.author.lastName?.[0]}
               </AvatarFallback>

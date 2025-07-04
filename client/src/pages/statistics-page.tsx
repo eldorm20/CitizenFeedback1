@@ -62,8 +62,10 @@ export default function StatisticsPage() {
 
   // Monthly trend (simulated data based on creation dates)
   const monthlyData = posts.reduce((acc, post) => {
-    const month = new Date(post.createdAt).toLocaleString('ru', { month: 'short' });
-    acc[month] = (acc[month] || 0) + 1;
+    if (post.createdAt) {
+      const month = new Date(post.createdAt).toLocaleString('ru', { month: 'short' });
+      acc[month] = (acc[month] || 0) + 1;
+    }
     return acc;
   }, {} as Record<string, number>);
 

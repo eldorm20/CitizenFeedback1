@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Bell, Plus, BarChart3, Menu, MessageSquare, Users, TrendingUp, CheckCircle, AlertCircle } from "lucide-react";
+import { Bell, Plus, BarChart3, Menu, MessageSquare, Users, TrendingUp, CheckCircle, AlertCircle, Sun, Moon } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
+import { useTheme } from "@/components/theme-provider";
 import { LanguageSelector } from "@/components/language-selector";
 import { FilterSection } from "@/components/filter-section";
 import { PostCard } from "@/components/post-card";
 import { CreatePostModal } from "@/components/create-post-modal";
-import { EnhancedChatbot } from "@/components/enhanced-chatbot";
+
 import { AdminPanel } from "@/components/admin-panel";
 import { motion, AnimatePresence } from "framer-motion";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, BarChart, Bar, PieChart, Pie, Cell } from "recharts";
@@ -44,8 +46,9 @@ interface Stats {
 export default function EnhancedHomePage() {
   const { user, logoutMutation } = useAuth();
   const { t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
   
   const [filters, setFilters] = useState({
@@ -153,34 +156,54 @@ export default function EnhancedHomePage() {
             </motion.div>
 
             <div className="hidden md:flex items-center space-x-6">
-              <Button variant="ghost" className="glass-input">
-                {t("home")}
-              </Button>
-              <Button variant="ghost" className="glass-input">
-                {t("complaints")}
-              </Button>
-              <Button variant="ghost" className="glass-input">
-                {t("initiatives")}
-              </Button>
-              <Button variant="ghost" className="glass-input">
-                {t("statistics")}
-              </Button>
+              <Link href="/dashboard">
+                <Button variant="ghost" className="glass-input">
+                  {t("home")}
+                </Button>
+              </Link>
+              <Link href="/complaints">
+                <Button variant="ghost" className="glass-input">
+                  {t("complaints")}
+                </Button>
+              </Link>
+              <Link href="/initiatives">
+                <Button variant="ghost" className="glass-input">
+                  {t("initiatives")}
+                </Button>
+              </Link>
+              <Link href="/statistics">
+                <Button variant="ghost" className="glass-input">
+                  {t("statistics")}
+                </Button>
+              </Link>
             </div>
 
             <div className="flex items-center space-x-3">
               <LanguageSelector />
               
+              {/* Theme Toggle */}
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsChatbotOpen(true)}
-                className="relative glass-input"
+                onClick={toggleTheme}
+                className="glass-input"
               >
-                <MessageSquare className="h-4 w-4" />
+                {theme === "dark" ? (
+                  <Sun className="h-4 w-4" />
+                ) : (
+                  <Moon className="h-4 w-4" />
+                )}
               </Button>
 
-              <Button variant="ghost" size="icon" className="glass-input">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="glass-input relative"
+                onClick={() => {/* TODO: Open notifications dropdown */}}
+              >
                 <Bell className="h-4 w-4" />
+                {/* Notification badge */}
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
               </Button>
 
               {user.role === "admin" && (
@@ -452,10 +475,7 @@ export default function EnhancedHomePage() {
         districts={districts}
       />
 
-      <EnhancedChatbot
-        open={isChatbotOpen}
-        onOpenChange={setIsChatbotOpen}
-      />
+
 
       {user.role === "admin" && (
         <AdminPanel

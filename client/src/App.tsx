@@ -21,7 +21,8 @@ import ProfilePage from "@/pages/profile-page";
 import SettingsPage from "@/pages/settings-page";
 import NotFound from "@/pages/not-found";
 import { ProtectedRoute } from "./lib/protected-route";
-import { Chatbot } from "@/components/chatbot";
+import { EnhancedChatbot } from "@/components/enhanced-chatbot";
+import { PWAInstallPrompt, NetworkStatus } from "@/components/pwa-install-prompt";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -47,6 +48,7 @@ function Router() {
 
   return (
     <div className="relative">
+      <NetworkStatus />
       <Switch>
         <Route path="/" component={LandingPage} />
         <Route path="/auth" component={AuthPage} />
@@ -63,7 +65,7 @@ function Router() {
       {/* Chatbot for authenticated users */}
       {user && (
         <>
-          <Chatbot open={isChatbotOpen} onOpenChange={setIsChatbotOpen} />
+          <EnhancedChatbot open={isChatbotOpen} onOpenChange={setIsChatbotOpen} />
           {!isChatbotOpen && (
             <Button
               onClick={() => setIsChatbotOpen(true)}
@@ -74,6 +76,9 @@ function Router() {
           )}
         </>
       )}
+      
+      {/* PWA Install Prompt */}
+      <PWAInstallPrompt />
     </div>
   );
 }

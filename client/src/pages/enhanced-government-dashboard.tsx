@@ -38,6 +38,11 @@ interface GovernmentStats {
   myDistrict: string;
 }
 
+interface DashboardData {
+  stats: GovernmentStats;
+  recentComplaints: PostWithAuthor[];
+}
+
 interface Agency {
   id: string;
   name: string;
@@ -62,7 +67,7 @@ export default function EnhancedGovernmentDashboard() {
   const [estimatedDate, setEstimatedDate] = useState("");
 
   // Fetch government dashboard data
-  const { data: dashboardData, isLoading } = useQuery({
+  const { data: dashboardData, isLoading } = useQuery<DashboardData>({
     queryKey: ["/api/government/dashboard"],
     queryFn: getQueryFn({ on401: "throw" }),
   });

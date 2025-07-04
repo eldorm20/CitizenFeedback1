@@ -61,8 +61,8 @@ export function registerRoutes(app: Express): Server {
         district: district as string,
         search: search as string,
         type: type as string,
-        limit: parseInt(limit as string),
-        offset: (parseInt(page as string) - 1) * parseInt(limit as string),
+        limit: Math.max(1, Math.min(100, parseInt(limit as string) || 10)),
+        offset: Math.max(0, (parseInt(page as string) || 1) - 1) * Math.max(1, Math.min(100, parseInt(limit as string) || 10)),
         userId
       });
       
@@ -414,7 +414,7 @@ export function registerRoutes(app: Express): Server {
 
     try {
       const notificationId = parseInt(req.params.id);
-      await storage.markNotificationAsRead(notificationId);
+      await storage.markNotificationAsRead(notificationId, req.user.id);
       res.json({ success: true });
     } catch (error) {
       console.error("Error marking notification as read:", error);
@@ -487,32 +487,7 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
-  // Enhanced post status updates for government users
-  app.patch("/api/posts/:id/status", async (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.status(401).json({ error: "Authentication required" });
-    }
 
-    // Only government and admin users can update status
-    if (!["government", "admin"].includes(req.user?.role || "")) {
-      return res.status(403).json({ error: "Government or admin access required" });
-    }
-
-    try {
-      const postId = parseInt(req.params.id);
-      const { status } = req.body;
-      
-      if (!["new", "in_progress", "resolved", "rejected"].includes(status)) {
-        return res.status(400).json({ error: "Invalid status" });
-      }
-
-      await storage.updatePostStatus(postId, status);
-      res.json({ success: true });
-    } catch (error) {
-      console.error("Error updating post status:", error);
-      res.status(500).json({ error: "Failed to update post status" });
-    }
-  });
 
   const httpServer = createServer(app);
 
@@ -534,12 +509,14 @@ export function registerRoutes(app: Express): Server {
           userId = message.userId;
           
           // Add client to user's connection list
-          if (!clients.has(userId)) {
+          if (userId && !clients.has(userId)) {
             clients.set(userId, []);
           }
-          const userClients = clients.get(userId);
-          if (userClients) {
-            userClients.push(ws);
+          if (userId) {
+            const userClients = clients.get(userId);
+            if (userClients) {
+              userClients.push(ws);
+            }
           }
           
           console.log(`User ${userId} connected via WebSocket`);
@@ -695,7 +672,7 @@ export function registerRoutes(app: Express): Server {
       // Get posts assigned to user's district or agency
       const userDistrict = req.user?.district;
       const posts = await storage.getPosts({
-        district: userDistrict,
+        district: userDistrict || undefined,
         type: 'complaint',
         limit: 100
       });

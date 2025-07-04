@@ -8,6 +8,7 @@ import { PostCard } from "@/components/post-card";
 import { CreatePostModal } from "@/components/create-post-modal";
 import { FilterSection } from "@/components/filter-section";
 import { NavigationHeader } from "@/components/navigation-header";
+import { UserAnalytics } from "@/components/user-analytics";
 import { useAuth } from "@/hooks/use-auth";
 import { queryClient } from "@/lib/queryClient";
 import { PostWithAuthor } from "@shared/schema";
@@ -136,6 +137,7 @@ export default function UserDashboard() {
           <TabsList className="glass-effect">
             <TabsTrigger value="all">Все обращения</TabsTrigger>
             <TabsTrigger value="my">Мои обращения</TabsTrigger>
+            <TabsTrigger value="analytics">Аналитика</TabsTrigger>
             <TabsTrigger value="trending">Популярные</TabsTrigger>
           </TabsList>
 
@@ -201,6 +203,10 @@ export default function UserDashboard() {
                 ))
               )}
             </div>
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <UserAnalytics userPosts={userPosts} allPosts={posts} />
           </TabsContent>
 
           <TabsContent value="trending" className="space-y-6">

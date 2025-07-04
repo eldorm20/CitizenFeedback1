@@ -50,7 +50,84 @@ export const translations = {
     matters: "Matters",
     platformDescription: "A platform for citizens where every complaint finds a response, every initiative gets support, and every discussion leads to real changes in our society.",
     startNow: "Start Now",
-    learnMore: "Learn More"
+    learnMore: "Learn More",
+    
+    // Categories
+    roads: "Roads",
+    housing: "Housing", 
+    transport: "Transport",
+    environment: "Environment",
+    parks: "Parks",
+    safety: "Safety",
+    utilities: "Utilities",
+    
+    // Actions
+    submit: "Submit",
+    createPost: "Create Post",
+    createComplaint: "Create Complaint",
+    adminDashboard: "Admin Dashboard",
+    governmentDashboard: "Government Dashboard",
+    markAllRead: "Mark All Read",
+    noNotifications: "No notifications",
+    tryAgain: "Try Again",
+    
+    // Messages
+    errorOccurred: "An error occurred",
+    noDataFound: "No data found",
+    
+    // Additional UI elements
+    dear_citizen: "dear citizen",
+    road_issues: "Road issues",
+    utilities_problems: "Utilities problems", 
+    environmental_concerns: "Environmental concerns",
+    safety_issues: "Safety issues",
+    legal_consultation: "Legal consultation",
+    emergency_situation: "Emergency situation",
+    connect_specialist: "Connect to specialist",
+    specialist_chat: "Specialist chat",
+    send_message: "Send message",
+    write_your_question: "Write your question...",
+    online: "Online",
+    ai_assistant: "AI Assistant",
+    notifications_header: "Notifications",
+    mark_as_read: "Mark as read",
+    view_all: "View all",
+    loading: "Loading...",
+    save_changes: "Save changes",
+    cancel: "Cancel",
+    edit: "Edit",
+    delete: "Delete",
+    share: "Share",
+    like: "Like",
+    comment: "Comment",
+    view: "View",
+    created_at: "Created at",
+    updated_at: "Updated at",
+    author: "Author",
+    status: "Status",
+    priority: "Priority",
+    district: "District",
+    low: "Low",
+    medium: "Medium", 
+    high: "High",
+    urgent: "Urgent",
+    back: "Back",
+    next: "Next",
+    previous: "Previous",
+    page: "Page",
+    of: "of",
+    total: "Total",
+    results: "results",
+    no_results: "No results found",
+    select_all: "Select all",
+    clear_all: "Clear all",
+    apply_filter: "Apply filter",
+    reset_filter: "Reset filter",
+    sort_by: "Sort by",
+    date: "Date",
+    name: "Name",
+    ascending: "Ascending",
+    descending: "Descending"
   },
   
   ru: {
@@ -104,7 +181,84 @@ export const translations = {
     matters: "имеет значение",
     platformDescription: "Платформа для граждан, где каждая жалоба находит отклик, каждая инициатива получает поддержку, а каждое обсуждение ведет к реальным изменениям в нашем обществе.",
     startNow: "Начать сейчас",
-    learnMore: "Узнать больше"
+    learnMore: "Узнать больше",
+    
+    // Categories
+    roads: "Дороги",
+    housing: "Жилье",
+    transport: "Транспорт", 
+    environment: "Экология",
+    parks: "Парки",
+    safety: "Безопасность",
+    utilities: "Коммунальные услуги",
+    
+    // Actions
+    submit: "Отправить",
+    createPost: "Создать пост",
+    createComplaint: "Создать жалобу",
+    adminDashboard: "Панель администратора",
+    governmentDashboard: "Государственная панель",
+    markAllRead: "Отметить все как прочитанное",
+    noNotifications: "Нет уведомлений",
+    tryAgain: "Попробовать снова",
+    
+    // Messages
+    errorOccurred: "Произошла ошибка",
+    noDataFound: "Данные не найдены",
+    
+    // Additional UI elements
+    dear_citizen: "дорогой гражданин",
+    road_issues: "Проблемы с дорогами",
+    utilities_problems: "Проблемы ЖКХ",
+    environmental_concerns: "Экологические проблемы",
+    safety_issues: "Вопросы безопасности",
+    legal_consultation: "Юридическая консультация",
+    emergency_situation: "Экстренная ситуация",
+    connect_specialist: "Связаться со специалистом",
+    specialist_chat: "Чат со специалистом",
+    send_message: "Отправить сообщение",
+    write_your_question: "Напишите ваш вопрос...",
+    online: "Онлайн",
+    ai_assistant: "ИИ помощник",
+    notifications_header: "Уведомления",
+    mark_as_read: "Отметить как прочитанное",
+    view_all: "Показать все",
+    loading: "Загрузка...",
+    save_changes: "Сохранить изменения",
+    cancel: "Отмена",
+    edit: "Редактировать",
+    delete: "Удалить",
+    share: "Поделиться",
+    like: "Нравится",
+    comment: "Комментарий",
+    view: "Просмотр",
+    created_at: "Создано",
+    updated_at: "Обновлено",
+    author: "Автор",
+    status: "Статус",
+    priority: "Приоритет",
+    district: "Район",
+    low: "Низкий",
+    medium: "Средний",
+    high: "Высокий",
+    urgent: "Срочный",
+    back: "Назад",
+    next: "Далее",
+    previous: "Предыдущий",
+    page: "Страница",
+    of: "из",
+    total: "Всего",
+    results: "результатов",
+    no_results: "Результаты не найдены",
+    select_all: "Выбрать все",
+    clear_all: "Очистить все",
+    apply_filter: "Применить фильтр",
+    reset_filter: "Сбросить фильтр",
+    sort_by: "Сортировать по",
+    date: "Дата",
+    name: "Имя",
+    ascending: "По возрастанию",
+    descending: "По убыванию"
   },
   
   uz: {
@@ -158,7 +312,30 @@ export const translations = {
     matters: "muhim",
     platformDescription: "Har bir shikoyat javob topadigan, har bir tashabbus qo'llab-quvvatlanadigan va har bir muhokama jamiyatimizda haqiqiy o'zgarishlarga olib keladigan fuqarolar platformasi.",
     startNow: "Hozir boshlash",
-    learnMore: "Batafsil"
+    learnMore: "Batafsil",
+    
+    // Categories
+    roads: "Yo'llar",
+    housing: "Uy-joy",
+    transport: "Transport",
+    environment: "Atrof-muhit",
+    parks: "Bog'lar",
+    safety: "Xavfsizlik", 
+    utilities: "Kommunal xizmatlar",
+    
+    // Actions
+    submit: "Yuborish",
+    createPost: "Post yaratish",
+    createComplaint: "Shikoyat yaratish",
+    adminDashboard: "Administrator paneli",
+    governmentDashboard: "Davlat paneli",
+    markAllRead: "Hammasini o'qilgan deb belgilash",
+    noNotifications: "Bildirishnomalar yo'q",
+    tryAgain: "Qayta urinish",
+    
+    // Messages
+    errorOccurred: "Xatolik yuz berdi",
+    noDataFound: "Ma'lumotlar topilmadi"
   },
   
   kaa: {
@@ -212,7 +389,30 @@ export const translations = {
     matters: "máńizli",
     platformDescription: "Hár bir shıkayat juwap tapatugın, hár bir tashabbus qollap-quwatlanatugın hám hár bir talqılaw jamıyatımızda shın ózgeristerde aparatugın azamatlar platforması.",
     startNow: "Házir baslash",
-    learnMore: "Kóbirek úyreniw"
+    learnMore: "Kóbirek úyreniw",
+    
+    // Categories  
+    roads: "Jollar",
+    housing: "Uy-joy",
+    transport: "Transport", 
+    environment: "Tabıǵat",
+    parks: "Parkllar",
+    safety: "Qáwipsizlik",
+    utilities: "Kommunal xızmetler",
+    
+    // Actions
+    submit: "Jollash",
+    createPost: "Post jaratıw",
+    createComplaint: "Shıkayat jaratıw", 
+    adminDashboard: "Administrator paneli",
+    governmentDashboard: "Dawlat paneli",
+    markAllRead: "Hámmesin oqılǧan dep belgilaw",
+    noNotifications: "Xabarlar joq",
+    tryAgain: "Qayta házirlaw",
+    
+    // Messages
+    errorOccurred: "Qátelik júz berdi",
+    noDataFound: "Maǵlıwmatlar tabılmadı"
   },
   
   tg: {
@@ -266,7 +466,30 @@ export const translations = {
     matters: "муҳим аст",
     platformDescription: "Платформаи шаҳрвандон, ки ҳар як шикоятро ҷавоб мепайвандад, ҳар як ташаббус дастгирӣ мешавад ва ҳар як баҳс ба тағйироти ҳақиқӣ дар ҷомеаи мо оварда мерасонад.",
     startNow: "Ҳозир оғоз кунед",
-    learnMore: "Бештар донед"
+    learnMore: "Бештар донед",
+    
+    // Categories
+    roads: "Роҳҳо",
+    housing: "Манзил",
+    transport: "Транспорт",
+    environment: "Муҳити зист",
+    parks: "Боғҳо", 
+    safety: "Бехатарӣ",
+    utilities: "Хидматҳои коммуналӣ",
+    
+    // Actions
+    submit: "Пешниҳод кардан",
+    createPost: "Пост эҷод кардан",
+    createComplaint: "Шикоят эҷод кардан",
+    adminDashboard: "Лавҳаи маъмур",
+    governmentDashboard: "Лавҳаи давлатӣ",
+    markAllRead: "Ҳамаро хондашуда қарор додан",
+    noNotifications: "Огоҳиҳо нестанд",
+    tryAgain: "Аз нав кӯшиш кардан",
+    
+    // Messages
+    errorOccurred: "Хато рух дод",
+    noDataFound: "Маълумот ёфт нашуд"
   }
 };
 

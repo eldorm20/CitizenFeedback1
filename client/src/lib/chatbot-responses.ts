@@ -3,8 +3,16 @@ interface ChatResponse {
   suggestions?: string[];
 }
 
-interface ChatResponses {
+interface LanguageResponses {
+  greeting: ChatResponse;
+  faq: ChatResponse;
   [key: string]: ChatResponse;
+}
+
+interface ChatResponses {
+  ru: LanguageResponses;
+  en: LanguageResponses;
+  uz: LanguageResponses;
 }
 
 export const getChatbotResponses = (language: 'en' | 'ru' | 'uz') => {
@@ -259,6 +267,37 @@ Muloqot Plus - это официальная платформа для пода�
           "Submit follow-up",
           "Technical issue"
         ]
+      },
+      
+      faq: {
+        content: `📋 **Frequently Asked Questions**
+
+**📝 How long to process complaints?**
+- Emergency: 24 hours  
+- Standard: 5-10 working days
+- Complex: 30 days maximum
+
+**🔄 Why is my complaint taking longer?**
+Possible reasons:
+• Complex investigation required
+• Multiple agencies involved  
+• Additional documentation needed
+• Verification in progress
+
+**📊 What complaint statuses exist?**
+• 🟡 **New** - received, awaiting review
+• 🔵 **In Progress** - under investigation
+• 🟢 **Resolved** - problem fixed
+• 🔴 **Rejected** - with explanation
+
+**📱 Is there a mobile app?**
+Currently web version only, but it's mobile-optimized.`,
+        suggestions: [
+          "Data security",
+          "Mobile application", 
+          "Service costs",
+          "Technical support"
+        ]
       }
     },
     
@@ -291,6 +330,37 @@ Muloqot Plus - это официальная платформа для пода�
           "Holatni qanday kuzatish mumkin?",
           "Javob kelmasa nima qilish kerak?",
           "Ko'rib chiqish muddatlari"
+        ]
+      },
+      
+      faq: {
+        content: `📋 **Tez-tez so'raladigan savollar**
+
+**📝 Shikoyatlar qancha vaqtda ko'rib chiqiladi?**
+- Favqulodda: 24 soat
+- Oddiy: 5-10 ish kuni  
+- Murakkab: maksimum 30 kun
+
+**🔄 Nima uchun mening shikoyatim uzoq ko'rib chiqilayapti?**
+Mumkin bo'lgan sabablar:
+• Murakkab tekshiruv talab etiladi
+• Bir necha idora jalb qilingan
+• Qo'shimcha hujjatlar kerak
+• Tekshirish jarayonida
+
+**📊 Qanday murojaatlar holatlari mavjud?**
+• 🟡 **Yangi** - qabul qilingan, ko'rib chiqish kutilayapti
+• 🔵 **Jarayonda** - tekshirilayapti
+• 🟢 **Hal qilingan** - muammo bartaraf etildi
+• 🔴 **Rad etilgan** - izoh bilan
+
+**📱 Mobil ilova bormi?**
+Hozircha faqat veb-versiya, lekin mobil qurilmalar uchun moslashtirilgan.`,
+        suggestions: [
+          "Ma'lumotlar xavfsizligi",
+          "Mobil ilova",
+          "Xizmat narxi", 
+          "Texnik yordam"
         ]
       }
     }

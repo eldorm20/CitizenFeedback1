@@ -82,11 +82,12 @@ export function setupAuth(app: Express) {
         return res.status(400).json({ error: "Email already exists" });
       }
 
-      // Set admin flag for admin role
+      // Prevent users from self-assigning admin role
       const userData = {
         ...req.body,
+        role: ["user", "government"].includes(req.body.role) ? req.body.role : "user",
         password: await hashPassword(req.body.password),
-        isAdmin: req.body.role === "admin",
+        isAdmin: false, // Admin users must be created by existing admins
       };
 
       const user = await storage.createUser(userData);
@@ -102,7 +103,7 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err: any, user: any, info: any) => {
       if (err) {
         console.error("Login error:", err);
         return res.status(500).json({ error: "Login failed" });

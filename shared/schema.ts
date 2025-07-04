@@ -1,4 +1,5 @@
-import { pgTable, text, serial, integer, boolean, timestamp, varchar, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, varchar, jsonb, unique } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -31,7 +32,7 @@ export const posts = pgTable("posts", {
   videoUrl: text("video_url"), // Support for video uploads
   mediaUrls: text("media_urls").array(), // Multiple media files
   location: jsonb("location"), // {lat: number, lng: number, address: string}
-  authorId: integer("author_id").references(() => users.id).notNull(),
+  authorId: integer("author_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
   likes: integer("likes").default(0),
   votes: integer("votes").default(0), // For initiatives voting
   views: integer("views").default(0),
@@ -50,33 +51,39 @@ export const posts = pgTable("posts", {
 export const comments = pgTable("comments", {
   id: serial("id").primaryKey(),
   content: text("content").notNull(),
-  postId: integer("post_id").references(() => posts.id).notNull(),
-  authorId: integer("author_id").references(() => users.id).notNull(),
+  postId: integer("post_id").references(() => posts.id, { onDelete: "cascade" }).notNull(),
+  authorId: integer("author_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
   likes: integer("likes").default(0),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const postLikes = pgTable("post_likes", {
   id: serial("id").primaryKey(),
-  postId: integer("post_id").references(() => posts.id).notNull(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  postId: integer("post_id").references(() => posts.id, { onDelete: "cascade" }).notNull(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  uniqueUserPost: unique().on(table.userId, table.postId),
+}));
 
 export const commentLikes = pgTable("comment_likes", {
   id: serial("id").primaryKey(),
-  commentId: integer("comment_id").references(() => comments.id).notNull(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  commentId: integer("comment_id").references(() => comments.id, { onDelete: "cascade" }).notNull(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  uniqueUserComment: unique().on(table.userId, table.commentId),
+}));
 
 export const postVotes = pgTable("post_votes", {
   id: serial("id").primaryKey(),
-  postId: integer("post_id").references(() => posts.id).notNull(),
-  userId: integer("user_id").references(() => users.id).notNull(),
+  postId: integer("post_id").references(() => posts.id, { onDelete: "cascade" }).notNull(),
+  userId: integer("user_id").references(() => users.id, { onDelete: "cascade" }).notNull(),
   voteType: text("vote_type").notNull(), // upvote, downvote
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => ({
+  uniqueUserPostVote: unique().on(table.userId, table.postId),
+}));
 
 export const notifications = pgTable("notifications", {
   id: serial("id").primaryKey(),

@@ -58,7 +58,7 @@ export interface IStorage {
   // Notification methods
   getUserNotifications(userId: number): Promise<Notification[]>;
   createNotification(notification: InsertNotification): Promise<Notification>;
-  markNotificationAsRead(id: number): Promise<void>;
+  markNotificationAsRead(id: number, userId: number): Promise<void>;
   markAllNotificationsAsRead(userId: number): Promise<void>;
   
   // Government methods
@@ -145,7 +145,7 @@ export class DatabaseStorage implements IStorage {
     }
 
     // Build query with proper condition handling
-    let query = db
+    const baseQuery = db
       .select({
         post: posts,
         author: users
@@ -154,11 +154,9 @@ export class DatabaseStorage implements IStorage {
       .innerJoin(users, eq(posts.authorId, users.id));
 
     // Apply conditions if any
-    if (conditions.length > 0) {
-      query = query.where(and(...conditions));
-    }
-
-    const result = await query
+    const result = await (conditions.length > 0 
+      ? baseQuery.where(and(...conditions))
+      : baseQuery)
       .orderBy(desc(posts.createdAt))
       .limit(limit)
       .offset(offset);
@@ -384,11 +382,11 @@ export class DatabaseStorage implements IStorage {
     return result;
   }
 
-  async markNotificationAsRead(id: number): Promise<void> {
+  async markNotificationAsRead(id: number, userId: number): Promise<void> {
     await db
       .update(notifications)
       .set({ read: true })
-      .where(eq(notifications.id, id));
+      .where(and(eq(notifications.id, id), eq(notifications.userId, userId)));
   }
 
   async markAllNotificationsAsRead(userId: number): Promise<void> {

@@ -166,7 +166,7 @@ export function NavigationHeader({ onCreatePost, showCreateButton = true }: Navi
                               {notification.message}
                             </p>
                             <p className="text-xs text-muted-foreground mt-2">
-                              {formatDistanceToNow(notification.createdAt, { addSuffix: true, locale: ru })}
+                              {notification.createdAt ? formatDistanceToNow(notification.createdAt, { addSuffix: true, locale: ru }) : 'Unknown time'}
                             </p>
                           </div>
                           {!notification.read && (

@@ -13,6 +13,14 @@ interface AdminPanelProps {
   onOpenChange: (open: boolean) => void;
 }
 
+interface Stats {
+  totalPosts: number;
+  resolvedPosts: number;
+  newPosts: number;
+  inProgressPosts: number;
+  totalUsers: number;
+}
+
 const statusColors = {
   new: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
   in_progress: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
@@ -31,12 +39,12 @@ export function AdminPanel({ open, onOpenChange }: AdminPanelProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: stats, isLoading: statsLoading } = useQuery({
+  const { data: stats, isLoading: statsLoading } = useQuery<Stats>({
     queryKey: ["/api/admin/stats"],
     enabled: open,
   });
 
-  const { data: posts = [], isLoading: postsLoading } = useQuery({
+  const { data: posts = [], isLoading: postsLoading } = useQuery<any[]>({
     queryKey: ["/api/posts", { page: 1, limit: 50 }],
     enabled: open,
   });
