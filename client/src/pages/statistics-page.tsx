@@ -2,10 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { NavigationHeader } from "@/components/navigation-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/hooks/use-language";
 import { PostWithAuthor, User } from "@shared/schema";
 import { 
   BarChart3, TrendingUp, Users, FileText, Clock, 
-  CheckCircle, AlertTriangle, MapPin 
+  CheckCircle, AlertTriangle, MapPin, Info, Target, Activity 
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 
@@ -16,12 +18,8 @@ export default function StatisticsPage() {
     queryKey: ["/api/posts"],
   });
 
-  const { data: users = [] } = useQuery<User[]>({
-    queryKey: ["/api/admin/users"],
-  });
-
   const { data: stats } = useQuery({
-    queryKey: ["/api/admin/stats"],
+    queryKey: ["/api/stats"],
   });
 
   // Calculate statistics from posts data
@@ -76,7 +74,7 @@ export default function StatisticsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
-      <NavigationHeader showCreateButton={false} />
+      <NavigationHeader />
       
       <div className="container mx-auto px-4 py-8">
         {/* Header */}

@@ -146,7 +146,7 @@ export function EnhancedChatbot({ open, onOpenChange }: EnhancedChatbotProps) {
     if (open && messages.length === 0) {
       const greeting: Message = {
         id: Date.now().toString(),
-        content: `Салом, ${user?.firstName || t('dear_citizen')}! 🌟\n\n Мен MuxlisaAI - Muloqot Plus платформасининг интеллектуал ёрдамчисиман.\n\n🚀 **Менинг имкониятларим:**\n• Муаммоларни аниқлаш ва ечим топиш\n• Тегишли идоралар билан боғлаш\n• Мутахассислар билан алоқа ўрнатиш\n• Ҳуқуқий маслаҳатлар бериш\n• Фавқулодда ҳолатларни қайд қилиш\n\n💡 Саволингизни ёзинг ёки тугмачаларни босинг!`,
+        content: `Салом, ${user?.firstName || t('dear_citizen')}! 🌟\n\n Мен YoriqnomAI - Muloqot Plus платформасининг интеллектуал ёрдамчисиман.\n\n🚀 **Менинг имкониятларим:**\n• Муаммоларни аниқлаш ва ечим топиш\n• Тегишли идоралар билан боғлаш\n• Мутахассислар билан алоқа ўрнатиш\n• Ҳуқуқий маслаҳатлар бериш\n• Фавқулодда ҳолатларни қайд қилиш\n\n💡 Саволингизни ёзинг ёки тугмачаларни босинг!`,
         isBot: true,
         timestamp: new Date(),
         suggestions: [
@@ -168,12 +168,12 @@ export function EnhancedChatbot({ open, onOpenChange }: EnhancedChatbotProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const detectProblemCategory = (message: string): string | null => {
+  const detectProblemCategory = (message: string): keyof typeof ENHANCED_KNOWLEDGE_BASE.categories | null => {
     const lowerMessage = message.toLowerCase();
     
     for (const [category, data] of Object.entries(ENHANCED_KNOWLEDGE_BASE.categories)) {
       if (data.keywords.some(keyword => lowerMessage.includes(keyword))) {
-        return category;
+        return category as keyof typeof ENHANCED_KNOWLEDGE_BASE.categories;
       }
     }
     return null;
@@ -263,7 +263,7 @@ export function EnhancedChatbot({ open, onOpenChange }: EnhancedChatbotProps) {
       case '/help':
         return {
           id: Date.now().toString(),
-          content: `🤖 **MUXLISAAI БУЙРУҚЛАРИ**\n\n🔧 **Асосий буйруқлар:**\n/ёрдам - бу меню\n/мутахассис - мутахассислар рўйхати\n/қонунийлик - ҳуқуқий маслаҳат\n/фавқулодда - фавқулодда хизматлар\n/статистика - мурожаат статистикаси\n\n🎯 **Махсус функциялар:**\n• Овозли хабар юбориш\n• Расм таҳлили\n• Ҳужжат скан қилиш\n• Жонли мутахассис билан алоқа\n\n🌟 **AI имкониятлари:**\n• Муаммоларни башорат қилиш\n• Автоматик категориялаш\n• Ечимларни тавсия этиш`,
+          content: `🤖 **YORIQNOMAI БУЙРУҚЛАРИ**\n\n🔧 **Асосий буйруқлар:**\n/ёрдам - бу меню\n/мутахассис - мутахассислар рўйхати\n/қонунийлик - ҳуқуқий маслаҳат\n/фавқулодда - фавқулодда хизматлар\n/статистика - мурожаат статистикаси\n\n🎯 **Махсус функциялар:**\n• Овозли хабар юбориш\n• Расм таҳлили\n• Ҳужжат скан қилиш\n• Жонли мутахассис билан алоқа\n\n🌟 **AI имкониятлари:**\n• Муаммоларни башорат қилиш\n• Автоматик категориялаш\n• Ечимларни тавсия этиш`,
           isBot: true,
           timestamp: new Date(),
           suggestions: ["/мутахассис", "/қонунийлик", "/фавқулодда", "Жонли чат"],
@@ -386,7 +386,7 @@ export function EnhancedChatbot({ open, onOpenChange }: EnhancedChatbotProps) {
             <div className="flex items-center gap-3">
               <div className="relative">
                 <Avatar className="h-10 w-10 border-2 border-white">
-                  <AvatarImage src="/muxlisa-ai-avatar.png" alt="MuxlisaAI" />
+                  <AvatarImage src="/yoriqnom-ai-avatar.png" alt="YoriqnomAI" />
                   <AvatarFallback className="bg-white text-indigo-600 font-bold">
                     <Sparkles className="h-5 w-5" />
                   </AvatarFallback>
@@ -399,7 +399,7 @@ export function EnhancedChatbot({ open, onOpenChange }: EnhancedChatbotProps) {
               </div>
               <div>
                 <CardTitle className="text-lg font-bold flex items-center gap-2">
-                  MuxlisaAI 
+                  YoriqnomAI 
                   <Zap className="h-4 w-4 text-yellow-300" />
                 </CardTitle>
                 <p className="text-xs text-indigo-100 flex items-center gap-1">
@@ -617,7 +617,7 @@ export function EnhancedChatbot({ open, onOpenChange }: EnhancedChatbotProps) {
                           transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
                         />
                       </div>
-                      <span className="text-xs text-gray-600 dark:text-gray-300">MuxlisaAI ёзмоқда...</span>
+                      <span className="text-xs text-gray-600 dark:text-gray-300">YoriqnomAI ёзмоқда...</span>
                     </div>
                   </div>
                 </motion.div>

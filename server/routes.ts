@@ -491,6 +491,17 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // Public stats endpoint for all users
+  app.get("/api/stats", async (req, res) => {
+    try {
+      const stats = await storage.getStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+      res.status(500).json({ error: "Failed to fetch statistics" });
+    }
+  });
+
   // Admin routes
   app.get("/api/admin/stats", async (req, res) => {
     if (!req.isAuthenticated() || !req.user?.isAdmin) {

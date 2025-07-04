@@ -3,10 +3,13 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 import { Bell, Plus, BarChart3, Menu, MessageSquare, Users, TrendingUp, CheckCircle, AlertCircle, Sun, Moon } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useLanguage } from "@/hooks/use-language";
 import { useTheme } from "@/components/theme-provider";
+import { useNotifications } from "@/hooks/use-notifications";
 import { LanguageSelector } from "@/components/language-selector";
 import { FilterSection } from "@/components/filter-section";
 import { PostCard } from "@/components/post-card";
@@ -47,7 +50,9 @@ export default function EnhancedHomePage() {
   const { user, logoutMutation } = useAuth();
   const { t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const { notifications, unreadCount, markAllAsRead } = useNotifications();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
   
@@ -195,16 +200,54 @@ export default function EnhancedHomePage() {
                 )}
               </Button>
 
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="glass-input relative"
-                onClick={() => {/* TODO: Open notifications dropdown */}}
-              >
-                <Bell className="h-4 w-4" />
-                {/* Notification badge */}
-                <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></div>
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="glass-input relative"
+                  >
+                    <Bell className="h-4 w-4" />
+                    {unreadCount > 0 && (
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </div>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-80">
+                  <div className="p-4">
+                    <h3 className="font-semibold mb-2">Уведомления</h3>
+                    {notifications.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">Нет новых уведомлений</p>
+                    ) : (
+                      <div className="space-y-2 max-h-60 overflow-y-auto">
+                        {notifications.slice(0, 5).map((notification) => (
+                          <div key={notification.id} className="p-2 rounded border bg-background">
+                            <p className="text-sm">{notification.message}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {notification.createdAt ? new Date(notification.createdAt).toLocaleDateString() : 'Недавно'}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {unreadCount > 0 && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={markAllAsRead}
+                          className="w-full"
+                        >
+                          Отметить все как прочитанные
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
               {user.role === "admin" && (
                 <Button
@@ -259,14 +302,16 @@ export default function EnhancedHomePage() {
                 <Plus className="mr-2 h-4 w-4" />
                 {t("submitComplaint")}
               </Button>
-              <Button 
-                variant="outline" 
-                size="lg"
-                className="glass-input shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                <BarChart3 className="mr-2 h-4 w-4" />
-                {t("statistics")}
-              </Button>
+              <Link href="/statistics">
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="glass-input shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <BarChart3 className="mr-2 h-4 w-4" />
+                  {t("statistics")}
+                </Button>
+              </Link>
             </div>
           </motion.div>
 
