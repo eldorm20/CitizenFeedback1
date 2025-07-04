@@ -28,8 +28,18 @@ app.use(helmet({
 // CORS configuration
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-domain.com'] 
-    : ['http://localhost:5000', 'http://127.0.0.1:5000'],
+    ? (origin, callback) => {
+        // Allow Replit domains and specific production domains
+        if (!origin || 
+            origin.includes('.replit.dev') || 
+            origin.includes('.repl.co') ||
+            origin === 'https://your-domain.com') {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      }
+    : true, // Allow all origins in development
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
