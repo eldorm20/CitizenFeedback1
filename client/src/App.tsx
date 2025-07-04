@@ -21,7 +21,7 @@ import ProfilePage from "@/pages/profile-page";
 import SettingsPage from "@/pages/settings-page";
 import NotFound from "@/pages/not-found";
 import { ProtectedRoute } from "./lib/protected-route";
-import { EnhancedChatbot } from "@/components/enhanced-chatbot";
+import { CleanChatbot } from "@/components/clean-chatbot";
 import { PWAInstallPrompt, NetworkStatus } from "@/components/pwa-install-prompt";
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
@@ -65,7 +65,7 @@ function Router() {
       {/* Chatbot for authenticated users */}
       {user && (
         <>
-          <EnhancedChatbot open={isChatbotOpen} onOpenChange={setIsChatbotOpen} />
+          <CleanChatbot open={isChatbotOpen} onOpenChange={setIsChatbotOpen} />
           {!isChatbotOpen && (
             <Button
               onClick={() => setIsChatbotOpen(true)}
