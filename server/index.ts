@@ -7,9 +7,9 @@ import rateLimit from "express-rate-limit";
 
 const app = express();
 
-// Security middleware
+// Security middleware - relaxed for development
 app.use(helmet({
-  contentSecurityPolicy: {
+  contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
@@ -21,7 +21,7 @@ app.use(helmet({
       mediaSrc: ["'self'"],
       frameSrc: ["'none'"],
     },
-  },
+  } : false, // Disable CSP in development
   crossOriginEmbedderPolicy: false,
 }));
 
@@ -35,17 +35,16 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
-// Rate limiting
+// Rate limiting - more permissive for development
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: { error: 'Too many requests, please try again later' }
-});
-
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 auth requests per windowMs
-  message: { error: 'Too many authentication attempts, please try again later' }
+  max: 1000, // increased limit for development
+  message: { error: 'Too many requests, please try again later' },
+  skip: (req) => {
+    // Skip rate limiting for static assets and API calls in development
+    return process.env.NODE_ENV === 'development' && 
+           (req.path.startsWith('/assets') || req.path.startsWith('/src') || req.path.startsWith('/@'));
+  }
 });
 
 app.use(limiter);
