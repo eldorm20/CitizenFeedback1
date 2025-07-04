@@ -12,6 +12,7 @@ import { useLanguage } from "@/hooks/use-language";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest, getQueryFn } from "@/lib/queryClient";
 import { PostWithAuthor } from "@shared/schema";
+import { EnhancedDashboard } from "@/components/comprehensive-fix";
 import { 
   Building, 
   AlertTriangle, 
@@ -142,13 +143,7 @@ export default function EnhancedGovernmentDashboard() {
   };
 
   const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'new': return 'Новая';
-      case 'in_progress': return 'В работе';
-      case 'resolved': return 'Решена';
-      case 'rejected': return 'Отклонена';
-      default: return status;
-    }
+    return t(`post.status.${status}`);
   };
 
   if (isLoading) {

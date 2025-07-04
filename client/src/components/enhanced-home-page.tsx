@@ -75,6 +75,44 @@ export default function EnhancedHomePage() {
     enabled: !!user && user.role === "admin",
   });
 
+  // Post interaction handlers
+  const likeMutation = useMutation({
+    mutationFn: async (postId: number) => {
+      return await apiRequest("POST", `/api/posts/${postId}/like`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
+    },
+  });
+
+  const handleLike = async (postId: number) => {
+    if (!user) return;
+    try {
+      await likeMutation.mutateAsync(postId);
+    } catch (error) {
+      console.error("Failed to like post:", error);
+    }
+  };
+
+  const handleShare = async (post: PostWithAuthor) => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: post.title,
+          text: post.content,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      const shareText = `${post.title}\n${post.content}\n${window.location.href}`;
+      await navigator.clipboard.writeText(shareText);
+      // Could add a toast notification here
+    }
+  };
+
   const displayStats = {
     totalPosts: stats?.totalPosts || posts.length || 0,
     resolvedPosts: stats?.resolvedPosts || posts.filter(p => p.status === "resolved").length || 0,
@@ -504,7 +542,12 @@ export default function EnhancedHomePage() {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <PostCard post={post} />
+                  <PostCard 
+                    post={post} 
+                    onLike={handleLike}
+                    onShare={handleShare}
+                    showComments={true}
+                  />
                 </motion.div>
               ))}
             </div>
